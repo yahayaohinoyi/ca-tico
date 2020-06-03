@@ -9,11 +9,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+
 import CustomButton from '../components/button'
 
 
 const Home = (props) => {
-    
     return (
       <>
         <View style = {{backgroundColor: '#264653', flex: 1}}>
@@ -35,7 +35,7 @@ const Home = (props) => {
                 </View>
                 <View>
                     <Text style = {{fontSize: 25, color: '#FFF'}}>
-                        master 1
+                         master 1
                     </Text>
                 </View>
             </View>

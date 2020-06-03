@@ -1,4 +1,4 @@
-class Stack {
+export default class Stack {
     constructor(){
         this.data = [];
         this.top = 0;
@@ -58,9 +58,4 @@ class Stack {
 
 }
 
-let obj = new Stack()
-
-
-
-module.exports = obj  
 

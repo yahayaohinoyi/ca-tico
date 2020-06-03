@@ -10,53 +10,22 @@ import {
 } from 'react-native';
 import Card from '../components/card'
 import {useState} from 'react'
-const obj = require('../Rules/rule')
-
+// const obj = require('../Rules/rule')
+import Stack from '../Rules/rule'
+let obj = new Stack()
+import GenerateRandom from '../Rules/fisherYates'
+import * as Animatable from 'react-native-animatable';
 
 const GameScreen = (props) => {
+    var fisher = new GenerateRandom()
+    var out = fisher.output(6)
+    fisher.mapOut(out)
+
 
     const [gameState, setGameState] = useState(false)
     const [score, setScore] = useState(0)
     const [counter, setCounter] = useState(0)
-    const [arr, setArr] = useState([
-        {
-            num : 7,
-            clicked : false,
-            id: 7,
-            marginLeft: 70
-        },
-        {
-            num : 2,
-            clicked : false,
-            id: 2,
-            marginLeft: 200
-        },
-        {
-            num : 3,
-            clicked : false,
-            id: 3,
-            marginLeft: 250
-        },
-        {
-            num : 6,
-            clicked : false,
-            id: 6,
-            marginLeft: 100
-        },
-        {
-            num : 1,
-            clicked : false,
-            id: 1,
-            marginLeft: 300
-        },
-        {
-            num : 4,
-            clicked : false,
-            id: 4,
-            marginLeft: 150
-        }
-
-    ])
+    const [arr, setArr] = useState(fisher.outArray)
 
     const clickCard = (id) => {
         setArr(
@@ -80,16 +49,32 @@ const GameScreen = (props) => {
                 return item
             })
         )
-        if (counter === 5){
+        if (counter === arr.length - 2){
+            fisher = createNewRandomInstance
+
+        }
+        if (counter === arr.length - 1){
             if(gameState && obj.getArr()[obj.getArr().length - 2] < obj.peek() ){
+                setArr(fisher.outArray)
                 setScore(score + 1)
-                alert('yaaay you won the round!!!')
+                // var obj = createNewStackInstance
             }
             else{
                 alert('Lmfao idiot, you cant beat it!!!!')
             }
         }
         
+    }
+    const createNewRandomInstance = () => {
+        var fisher = new GenerateRandom()
+        var out = fisher.output(6)
+        fisher.mapOut(out)
+        return fisher
+    }
+
+    const createNewStackInstance= () => {
+        obj = new Stack()
+        return obj
     }
     
     const handleCardStyle = (clicked) => {
@@ -139,7 +124,7 @@ const GameScreen = (props) => {
                     </View>
                     <View style = {{marginRight: 15, marginTop: 40}}>
                         <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: 12</Text>
-                        <Text style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Text>
+                        <Animatable.Text animation = 'rubberBand' style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Animatable.Text>
                     </View>
                 </View>
                 <View style = {{alignItems: 'center'}}>
@@ -150,13 +135,13 @@ const GameScreen = (props) => {
                 {
                 arr.map(comp => {
                     return <Card key = {comp.num}
-                                 num = {comp.num} 
+                                 num = {comp.num} r
                                  marginLeft = {comp.marginLeft}
                                  handleCardStyle = {handleCardStyle(comp.clicked)}
                                  handleTextStyle = {handleTextStyle(comp.clicked)} 
                                  clickCard = {() => clickCard(comp.id)}
                                  />
-                })
+                }) 
                 }
             </View>
         </View>

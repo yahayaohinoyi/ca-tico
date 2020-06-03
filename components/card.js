@@ -9,18 +9,20 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {useState, useEffect} from 'react'
+import * as Animatable from 'react-native-animatable';
+
 
 const Card = (props) => {
 
     return (
       <>
-        <View style = {{marginLeft: props.marginLeft}}>
+        <Animatable.View animation = 'bounceIn' style = {{marginLeft: props.marginLeft}}>
                 <TouchableOpacity style = {props.handleCardStyle} onPress = {props.clickCard}>
                     <Text style = {props.handleTextStyle}>
                         {props.num}
                     </Text>
                 </TouchableOpacity>
-        </View>
+        </Animatable.View>
       </>
     );
 
