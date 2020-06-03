@@ -21,8 +21,7 @@ const GameScreen = (props) => {
     var out = fisher.output(6)
     fisher.mapOut(out)
 
-
-    const [gameState, setGameState] = useState(false)
+    const [stackObj, setStackObj] = useState(new Stack())
     const [score, setScore] = useState(0)
     const [counter, setCounter] = useState(0)
     const [arr, setArr] = useState(fisher.outArray)
@@ -33,15 +32,12 @@ const GameScreen = (props) => {
                 if(item.id === id){
                     if(!item.clicked){
                         setCounter(counter + 1)
-                        obj.push(item.num)
-                        let my_obj = obj.getEvery()
-                        setGameState(my_obj[obj.length() - 1])
+                        stackObj.push(item.num)
+
                     }
                     else{
                         setCounter(counter - 1)
-                        obj.pop()
-                        let my_obj = obj.getEvery()
-                        setGameState(my_obj[obj.length() - 1])
+                        stackObj.pop()
                     }
                     item.clicked = !item.clicked
                 }
@@ -51,13 +47,14 @@ const GameScreen = (props) => {
         )
         if (counter === arr.length - 2){
             fisher = createNewRandomInstance
-
         }
         if (counter === arr.length - 1){
-            if(gameState && obj.getArr()[obj.getArr().length - 2] < obj.peek() ){
+            console.log(stackObj.getArr())
+            if(stackObj.validate()){
                 setArr(fisher.outArray)
                 setScore(score + 1)
-                // var obj = createNewStackInstance
+                setCounter(0)
+                setStackObj(new Stack())
             }
             else{
                 alert('Lmfao idiot, you cant beat it!!!!')
@@ -70,11 +67,6 @@ const GameScreen = (props) => {
         var out = fisher.output(6)
         fisher.mapOut(out)
         return fisher
-    }
-
-    const createNewStackInstance= () => {
-        obj = new Stack()
-        return obj
     }
     
     const handleCardStyle = (clicked) => {

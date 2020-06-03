@@ -43,19 +43,34 @@ export default class Stack {
         this.data.pop(); // removes the last element
         }
    }
-   getState(){
-       if(this.states.length === 0){
-           return false
-       }
-       return this.states[this.states.length - 1]
-   }
-   getEvery(){
-        return this.states
-   }
+//    getState(){
+//        if(this.states.length === 0){
+//            return false
+//        }
+//        return this.states[this.states.length - 1]
+//    }
+//    getEvery(){
+//         return this.states
+//    }
    getArr(){
        return this.data
    }
 
+   validate(){
+       var temp = [...this.data]
+       temp.sort()
+       for (let i = 0; i < temp.length; i ++){
+           if(temp[i] != this.data[i]){
+               return false
+           }
+       }
+       return true
+   }
+
 }
+
+
+
+
 
 

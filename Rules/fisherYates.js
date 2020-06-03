@@ -5,17 +5,34 @@ export default class GenerateRandom {
         this.screenSize = 400
         this.numbers = []
         this.dimensions = [] 
-        for (let i = 0; i < this.screenSize; i++){
-            if (i < 10){
-                this.numbers.push(i)
-            }
-            else if(i > 60 && i < 300){
-                this.dimensions.push(i)
-            }
-            else if(i > 300){
-                break
+        this.rand = Math.floor(Math.random() * (2 - 0)) + 0
+        if (this.rand === 1){
+            for (let i = 0; i < this.screenSize; i++){
+                if (i < 10){
+                    this.numbers.push(i)
+                }
+                else if(i > 60 && i < 300){
+                    this.dimensions.push(i)
+                }
+                else if(i > 300){
+                    break
+                }
             }
         }
+        else{
+            for (let i = 0; i < this.screenSize; i++){
+                if (i >= 97 && i <= 122){
+                    this.numbers.push(String.fromCharCode(i))
+                }
+                else if(i > 60 && i < 300){
+                    this.dimensions.push(i)
+                }
+                else if(i > 300){
+                    break
+                }
+            }
+        }
+
 
     }
     output(breakPoint){
@@ -70,10 +87,9 @@ export default class GenerateRandom {
 
 }
 
-// let fisher = new GenerateRandom()
-// var out = fisher.output(7)
-// // console.log(out)
-// fisher.mapOut(out)
+
 
 
 // module.exports = fisher
+
+
