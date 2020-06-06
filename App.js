@@ -18,11 +18,33 @@ import {
 import {useEffect, useState} from 'react'
 import firebase from 'firebase'
 
+var Sound = require('react-native-sound');
+Sound.setCategory('Playback');
+
+var whoosh = new Sound("/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/test1.mp3", '', (error) => {
+  if (error) {
+    console.log('failed to load the sound');
+    return;
+  }
+  // loaded successfully
+  // console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+ 
+  // Play the sound with an onEnd callback
+  whoosh.play((success) => {
+    if (success) {
+      console.log('successfully finished playing');
+    } else {
+      // console.log('playback failed due to audio decoding errors');
+    }
+  });
+});
+
 import CustomButton from './components/button'
 import Card from './components/card'
 import Instruction from './screens/instruction'
 import Home from './screens/home'
 import GameScreen from './screens/game'
+import Modal from './components/modal'
 
 const App: () => React$Node = () => {
   const [data, setData] = useState({})
@@ -57,6 +79,7 @@ const App: () => React$Node = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style = {styles.containerStyle}>
         <GameScreen/>  
+
         
       </SafeAreaView>
     </>

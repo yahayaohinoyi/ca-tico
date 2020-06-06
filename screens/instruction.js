@@ -13,7 +13,7 @@ const Instruction = (props) => {
     
     return (
       <>
-        <View style = {{backgroundColor : '#264653', flex: 1}}>
+        <View style = {{backgroundColor : '#5E6472', flex: 1}}>
             <View style = {{alignItems: 'flex-end', paddingVertical: 10, paddingBottom: 20, paddingRight: 35}}>
                 <Text style = {styles.bigText}>
                     INSTRUCTION
