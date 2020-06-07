@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -15,7 +16,9 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import firebase from 'firebase'
 
 var Sound = require('react-native-sound');
@@ -46,7 +49,9 @@ import Home from './screens/home'
 import GameScreen from './screens/game'
 import Modal from './components/modal'
 
-const App: () => React$Node = () => {
+const Stack = createStackNavigator();
+
+const App = () => {
   const [data, setData] = useState({})
 
 
@@ -76,12 +81,27 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style = {styles.containerStyle}>
-        <GameScreen/>  
-
-        
-      </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+          {/* <StatusBar barStyle="dark-content" /> */}
+          {/* <SafeAreaView style = {styles.containerStyle}> */}
+            <Stack.Screen
+             name="Home"
+             component={Home}
+             options = {{headerShown: false}}/> 
+            <Stack.Screen
+             name="GameScreen"
+             component={GameScreen}
+             options = {{headerShown: false}}
+              />
+            <Stack.Screen 
+              name="Instruction"
+              component={Instruction}
+              options = {{headerShown: false}} /> 
+             
+          {/* </SafeAreaView> */}
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 };

@@ -28,16 +28,16 @@ const modal = (props) => {
                 <TouchableHighlight
                 style={{ ...styles.openButton,marginRight:50, backgroundColor: "#08377C" }}
                 onPress={() => {
-                    setModalVisible(!modalVisible);
-                }}
+                    setModalVisible(false)
+                    props.navigation.push('GameScreen')}}
                 >
                 <Text style={styles.textStyle}>Play Again</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#E1594C" }}
                 onPress={() => {
-                    setModalVisible(!modalVisible);
-                }}
+                    setModalVisible(false)
+                    props.navigation.popToTop()}}
                 >
                 <Text style={styles.textStyle}>Go to Menu</Text>
                 </TouchableHighlight>

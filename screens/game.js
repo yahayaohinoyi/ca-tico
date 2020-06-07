@@ -178,7 +178,7 @@ const GameScreen = (props) => {
 
     const renderModal = () => {
         if(modalVisible){
-            return <Modal modalVisible = {modalVisible}/>
+            return <Modal modalVisible = {modalVisible} navigation = {props.navigation}/>
         }
         else{
             return <View></View>
@@ -206,7 +206,7 @@ const GameScreen = (props) => {
     
     return (
       <>
-        <View style = {{flex: 1, backgroundColor: '#5E6472'}}>
+        <SafeAreaView style = {{flex: 1, backgroundColor: '#5E6472'}}>
             <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 1000, borderBottomRightRadius: 1000}}>
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60}}>
                     <View style = {{marginLeft: 15, marginTop: 10 }}>
@@ -238,9 +238,7 @@ const GameScreen = (props) => {
                 }
             </View>
 
-
-
-        </View>
+        </SafeAreaView>
       </>
     );
   };

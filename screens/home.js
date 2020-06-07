@@ -14,9 +14,10 @@ import CustomButton from '../components/button'
 
 
 const Home = (props) => {
+
     return (
       <>
-        <View style = {{backgroundColor: '#5E6472', flex: 1}}>
+        <SafeAreaView style = {{backgroundColor: '#5E6472', flex: 1}}>
             <View style = {{justifyContent: "flex-end", flexDirection: 'row', flex: 0.1, marginRight: 30, marginTop: 30}}>
                 <Text style = {styles.smallText}>
                     RANK: 
@@ -41,13 +42,13 @@ const Home = (props) => {
             </View>
 
             <View style = {{alignItems: 'center', flex: 0.4}}>
-                <CustomButton text = 'PLAY GAME'/>
-                <CustomButton text = 'LEADERBOARD'/>
-                <CustomButton text = 'INSTRUCTION'/>
-                <CustomButton text = 'SETTINGS'/>
+                <CustomButton text = 'PLAY GAME' onPress = {() => props.navigation.navigate('GameScreen')}/>
+                <CustomButton text = 'LEADERBOARD' onPress = {() => props.navigation.navigate('GameScreen')}/>
+                <CustomButton text = 'INSTRUCTION' onPress = {() => props.navigation.navigate('Instruction')}/>
+                <CustomButton text = 'SETTINGS' onPress = {() => props.navigation.navigate('GameScreen')}/>
             </View>
 
-        </View>
+        </SafeAreaView>
       </>
     );
   };

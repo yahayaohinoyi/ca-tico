@@ -13,7 +13,7 @@ const CustomButton = (props) => {
     
     return (
       <>
-        <TouchableOpacity style = {styles.buttonStyle}>
+        <TouchableOpacity style = {styles.buttonStyle} onPress = {props.onPress}>
             <Text style = {{fontSize: 22, color: '#FFF'}}>
                 {props.text}
             </Text>
