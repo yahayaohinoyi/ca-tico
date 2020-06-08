@@ -44,13 +44,13 @@ const GameScreen = (props) => {
                     if(!item.clicked){
                         setCounter(counter + 1)
                         stackObj.push(item.num)
-                        clickCardSoundEffect('bubble_1.mp3')
+                        soundEffect('bubble_1.mp3')
 
                     }
                     else{
                         setCounter(counter - 1)
                         stackObj.pop()
-                        clickCardSoundEffect('unbubble.mp3')
+                        soundEffect('unbubble.mp3')
                     }
                     item.clicked = !item.clicked
                 }
@@ -71,7 +71,7 @@ const GameScreen = (props) => {
                 setResetTimer(8)
                 setId(Math.floor(Math.random() * (100000 - 0)) + 0)
                 console.log(id)
-                changeScreenSoundEffect()
+                soundEffect('test1.mp3')
             }
             else{
                 onFailRound('failed.mp3')
@@ -123,7 +123,7 @@ const GameScreen = (props) => {
         }
         }
 
-    const clickCardSoundEffect = (filename) => {
+    const soundEffect = (filename) => {
         var Sound = require('react-native-sound');
         Sound.setCategory('Playback');
         const dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
@@ -147,31 +147,9 @@ const GameScreen = (props) => {
           });
     }
 
-    const changeScreenSoundEffect = () => {
-        var Sound = require('react-native-sound');
-        Sound.setCategory('Playback');
-        var whoosh = new Sound("/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/test1.mp3", '', (error) => {
-            if (error) {
-              console.log('failed to load the sound');
-              return;
-            }
-            // loaded successfully
-            // console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-           
-            // Play the sound with an onEnd callback
-            whoosh.play((success) => {
-                setWoosh(whoosh)
-              if (success) {
-                // console.log('successfully finished playing');
-              } else {
-                // console.log('playback failed due to audio decoding errors');
-              }
-            });
-          });
-    }
 
     const onFailRound = (aud) => {
-        clickCardSoundEffect(aud)
+        soundEffect(aud)
         setScore(0)
         setModalVisible(true)
     }
@@ -210,7 +188,7 @@ const GameScreen = (props) => {
             <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 1000, borderBottomRightRadius: 1000}}>
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60}}>
                     <View style = {{marginLeft: 15, marginTop: 10 }}>
-                        <Text style = {{fontWeight: '900', fontSize: 20}}>caótico</Text>
+                    <Text style = {{fontWeight: '900', fontSize: 20}}>{}</Text>
                     </View>
                     <View style = {{marginRight: 15, marginTop: 40}}>
                         <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {Math.max(4, score)}</Text>

@@ -43,9 +43,9 @@ const Home = (props) => {
 
             <View style = {{alignItems: 'center', flex: 0.4}}>
                 <CustomButton text = 'PLAY GAME' onPress = {() => props.navigation.navigate('GameScreen')}/>
-                <CustomButton text = 'LEADERBOARD' onPress = {() => props.navigation.navigate('GameScreen')}/>
+                <CustomButton text = 'LEADERBOARD' onPress = {() => props.navigation.navigate('LeaderBoard')}/>
                 <CustomButton text = 'INSTRUCTION' onPress = {() => props.navigation.navigate('Instruction')}/>
-                <CustomButton text = 'SETTINGS' onPress = {() => props.navigation.navigate('GameScreen')}/>
+                {/* <CustomButton text = 'SETTINGS' onPress = {() => props.navigation.navigate('GameScreen')}/> */}
             </View>
 
         </SafeAreaView>
