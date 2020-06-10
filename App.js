@@ -29,9 +29,8 @@ import CustomButton from './components/button'
 import Card from './components/card'
 import Instruction from './screens/instruction'
 import Home from './screens/home'
-import GameScreen from './screens/game'
-import LeaderBoard from './screens/leaderboard'
-import Modal from './components/modal'
+import GameScreenModal from './components/modal'
+import LeaderBoardModal from './components/changeUserModal'
 
 const Stack = createStackNavigator();
 
@@ -67,15 +66,13 @@ const App = () => {
     <>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-          {/* <StatusBar barStyle="dark-content" /> */}
-          {/* <SafeAreaView style = {styles.containerStyle}> */}
             <Stack.Screen
              name="Home"
              component={Home}
              options = {{headerShown: false}}/> 
             <Stack.Screen
-             name="GameScreen"
-             component={GameScreen}
+             name="GameScreenModal"
+             component={GameScreenModal}
              options = {{headerShown: false}}
               />
             <Stack.Screen 
@@ -83,11 +80,9 @@ const App = () => {
               component={Instruction}
               options = {{headerShown: false}} /> 
             <Stack.Screen 
-              name="LeaderBoard"
-              component={LeaderBoard}
+              name="LeaderBoardModal"
+              component={LeaderBoardModal}
               options = {{headerShown: false}} /> 
-             
-          {/* </SafeAreaView> */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

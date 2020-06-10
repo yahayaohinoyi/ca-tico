@@ -9,17 +9,17 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+
 import { v4 as uuidv4 } from 'uuid';
 import CountDown from 'react-native-countdown-component';
 
 
 import Card from '../components/card'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 // const obj = require('../Rules/rule')
 import Stack from '../Rules/rule'
 import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
-import Modal from '../components/modal'
 
 const GameScreen = (props) => {
     var fisher = new GenerateRandom()
@@ -27,60 +27,89 @@ const GameScreen = (props) => {
     fisher.mapOut(out)
 
     const [whoosh, setWoosh] = useState(whoosh)
-    const [modalVisible, setModalVisible] = useState(false);
     const [id, setId] = useState(Math.floor(Math.random() * (100000 - 0)) + 0)
     const [stackObj, setStackObj] = useState(new Stack())
     const [score, setScore] = useState(0)
     const [counter, setCounter] = useState(0)
     const [arr, setArr] = useState(fisher.outArray)
+    const [resetTimer, setResetTimer] = useState(10)
 
-    const [resetTimer, setResetTimer] = useState(8)
+    useEffect(() => {
+        setArr(arr)
+    }, [fisher.outArray])
 
     const clickCard = (id) => {
+
+
         setArr(
             arr.map(item => {
                 if(item.id === id){
-                    
                     if(!item.clicked){
                         setCounter(counter + 1)
                         stackObj.push(item.num)
+                        // if (counter === arr.length - 1){        
+                        //     if(stackObj.validate()){
+                        //         // setArr(fisher.outArray)
+             
+                        //         setScore(score + 1)
+                        //         setCounter(0)
+                        //         setStackObj(new Stack())
+                        //         setResetTimer(10)
+                        //         setId(Math.floor(Math.random() * (100000 - 0)) + 0)
+                        //         // console.log(id)
+                        //         soundEffect('test1.mp3')
+                        //     }
+                        //     else{
+                        //         onFailRound('failed.mp3')
+                        //         // whoosh.pause()
+                        //     }
+                        // }
+                        console.log(stackObj.getArr())
                         soundEffect('bubble_1.mp3')
 
                     }
                     else{
                         setCounter(counter - 1)
                         stackObj.pop()
+                        console.log(stackObj.getArr())
                         soundEffect('unbubble.mp3')
                     }
                     item.clicked = !item.clicked
+
                 }
+
 
                 return item
             })
+
+            
         )
         if (counter === arr.length - 2){
             fisher = createNewRandomInstance
         }
-        if (counter === arr.length - 1){
-            // console.log(stackObj.getArr())
-            if(stackObj.validate()){
-                setArr(fisher.outArray)
-                setScore(score + 1)
-                setCounter(0)
-                setStackObj(new Stack())
-                setResetTimer(8)
-                setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-                console.log(id)
-                soundEffect('test1.mp3')
+
+            if (counter === arr.length - 1){        
+                if(stackObj.validate()){
+                    setArr(fisher.outArray)
+                    setScore(score + 1)
+                    setCounter(0)
+                    setStackObj(new Stack())
+                    setResetTimer(10)
+                    setId(Math.floor(Math.random() * (100000 - 0)) + 0)
+                    // console.log(id)
+                    soundEffect('test1.mp3')
+                }
+                else{
+                    onFailRound('failed.mp3')
+                    // whoosh.pause()
+                }
             }
-            else{
-                onFailRound('failed.mp3')
-                setModalVisible(true)
-                whoosh.pause()
-            }
-        }
+        
+
         
     }
+
+
     const createNewRandomInstance = () => {
         var fisher = new GenerateRandom()
         var out = fisher.output(6)
@@ -151,24 +180,17 @@ const GameScreen = (props) => {
     const onFailRound = (aud) => {
         soundEffect(aud)
         setScore(0)
-        setModalVisible(true)
+        props.handleCompleteTime()
+
     }
 
-    const renderModal = () => {
-        if(modalVisible){
-            return <Modal modalVisible = {modalVisible} navigation = {props.navigation}/>
-        }
-        else{
-            return <View></View>
-        }
-    }
  
     
     
     const renderTimer =
                 <CountDown
                     id = {id.toString()}
-                    until={10}
+                    until={resetTimer}
                     onFinish={() => onFailRound('failed.mp3')}
                     // onPress={() => alert('hello')}
                     size={20}
@@ -198,9 +220,6 @@ const GameScreen = (props) => {
                 <View style = {{alignItems: 'center'}}>
                     {renderTimer}
                 </View>
-            </View>
-            <View>
-              {renderModal()}
             </View>
             <View style = {{flex: 0.5, marginTop: 20}}>
                 {
