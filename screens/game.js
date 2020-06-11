@@ -34,63 +34,47 @@ const GameScreen = (props) => {
     const [arr, setArr] = useState(fisher.outArray)
     const [resetTimer, setResetTimer] = useState(10)
 
-    useEffect(() => {
-        setArr(arr)
-    }, [fisher.outArray])
+    let _map = new Map()
 
-    const clickCard = (id) => {
+    for(let i = 0; i < arr.length; i ++){
+        _map[arr[i].id] = arr[i]
+    }
 
+    // useEffect(() => {
+    //     async function fetchFisher(){
+    //         const myArr = await fisher.outArray
+    //         console.log(myArr)
+    //         setArr(myArr)
+    //     }
+    //         if (counter == 0 ||  counter == 6){
+    //         fetchFisher()
+    //         }
 
-        setArr(
-            arr.map(item => {
-                if(item.id === id){
-                    if(!item.clicked){
-                        setCounter(counter + 1)
-                        stackObj.push(item.num)
-                        // if (counter === arr.length - 1){        
-                        //     if(stackObj.validate()){
-                        //         // setArr(fisher.outArray)
-             
-                        //         setScore(score + 1)
-                        //         setCounter(0)
-                        //         setStackObj(new Stack())
-                        //         setResetTimer(10)
-                        //         setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-                        //         // console.log(id)
-                        //         soundEffect('test1.mp3')
-                        //     }
-                        //     else{
-                        //         onFailRound('failed.mp3')
-                        //         // whoosh.pause()
-                        //     }
-                        // }
-                        console.log(stackObj.getArr())
-                        soundEffect('bubble_1.mp3')
-
-                    }
-                    else{
-                        setCounter(counter - 1)
-                        stackObj.pop()
-                        console.log(stackObj.getArr())
-                        soundEffect('unbubble.mp3')
-                    }
-                    item.clicked = !item.clicked
-
-                }
+    // }, [])
 
 
-                return item
-            })
 
-            
-        )
-        if (counter === arr.length - 2){
-            fisher = createNewRandomInstance
+    const clickCard = id => {
+        // console.log(_map[id])
+        if(!_map[id].clicked){
+            setCounter(counter + 1)
+            stackObj.push(_map[id].num)    
+            soundEffect('bubble_1.mp3')
         }
-
-            if (counter === arr.length - 1){        
-                if(stackObj.validate()){
-                    setArr(fisher.outArray)
+        else{
+            setCounter(counter - 1)
+            stackObj.pop()
+            soundEffect('unbubble.mp3')
+        }
+        _map[id].clicked = !_map[id].clicked
+        setArr(   
+            Object.values(_map)
+        )
+        if(counter == arr.length - 1){
+            if(stackObj.validate()){
+                if(stackObj.getArr().length === arr.length){
+                    console.log('na me cause am')
+                    setArr(createNewRandomInstance().outArray)
                     setScore(score + 1)
                     setCounter(0)
                     setStackObj(new Stack())
@@ -99,14 +83,12 @@ const GameScreen = (props) => {
                     // console.log(id)
                     soundEffect('test1.mp3')
                 }
-                else{
-                    onFailRound('failed.mp3')
-                    // whoosh.pause()
-                }
-            }
-        
 
-        
+            }
+            else{
+                onFailRound('failed.mp3')
+            }
+        } 
     }
 
 
