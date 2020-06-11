@@ -37,28 +37,13 @@ const GameScreen = (props) => {
     let _map = new Map()
 
     for(let i = 0; i < arr.length; i ++){
-        _map[arr[i].id] = arr[i]
+        _map[arr[i].id] = i
     }
-
-    // useEffect(() => {
-    //     async function fetchFisher(){
-    //         const myArr = await fisher.outArray
-    //         console.log(myArr)
-    //         setArr(myArr)
-    //     }
-    //         if (counter == 0 ||  counter == 6){
-    //         fetchFisher()
-    //         }
-
-    // }, [])
-
-
-
     const clickCard = id => {
         // console.log(_map[id])
-        if(!_map[id].clicked){
+        if(!arr[_map[id]].clicked){
             setCounter(counter + 1)
-            stackObj.push(_map[id].num)    
+            stackObj.push(arr[_map[id]].num)    
             soundEffect('bubble_1.mp3')
         }
         else{
@@ -66,14 +51,11 @@ const GameScreen = (props) => {
             stackObj.pop()
             soundEffect('unbubble.mp3')
         }
-        _map[id].clicked = !_map[id].clicked
-        setArr(   
-            Object.values(_map)
-        )
+        arr[_map[id]].clicked = !arr[_map[id]].clicked
+        setArr([...arr])
         if(counter == arr.length - 1){
             if(stackObj.validate()){
                 if(stackObj.getArr().length === arr.length){
-                    console.log('na me cause am')
                     setArr(createNewRandomInstance().outArray)
                     setScore(score + 1)
                     setCounter(0)
