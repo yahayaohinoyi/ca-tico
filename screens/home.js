@@ -9,11 +9,44 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-
+import firebase from 'firebase'
+import DeviceInfo from 'react-native-device-info';
+import { getUniqueId, getManufacturer } from 'react-native-device-info';
+let uniqueId = DeviceInfo.getUniqueId();
+// console.log(uniqueId)
 import CustomButton from '../components/button'
+import {useState, useEffect, useContext} from 'react'
 
 
 const Home = (props) => {
+    const [data, setData] = useState([])
+    const [name, setName] = useState('')
+    useEffect(() => {
+      const firebaseConfig = {
+      apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
+      authDomain: "caotico-b8650.firebaseapp.com",
+      databaseURL: "https://caotico-b8650.firebaseio.com",
+      projectId: "caotico-b8650",
+      storageBucket: "caotico-b8650.appspot.com",
+      messagingSenderId: "785688806738",
+      appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
+      measurementId: "G-3MTKKNNEWJ"
+      };
+      if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+      }else{
+      firebase.app()
+      }
+      firebase.database().ref('users').limitToFirst(20).on('value', (out)=>{           
+      out = out.toJSON()
+    //   console.log(out)
+      setData(out)
+      setName(out[uniqueId]['userName'])
+    //   var obj = out[uniqueId]['userName']
+    //   console.log(obj['userName'])
+     
+      })
+    }, [])
 
     return (
       <>
@@ -32,7 +65,7 @@ const Home = (props) => {
                 </View>
                 <View style = {{flexDirection: 'row', alignItems: 'center', marginBottom: 50}}>
                     <Text style = {{fontSize: 14, color: '#FFF'}}> Hello </Text>
-                    <Text style = {{fontSize: 14, color: '#FFF'}}> Yahaya</Text>
+                    <Text style = {{fontSize: 14, color: '#FFF'}}> {name} </Text>
                 </View>
                 <View>
                     <Text style = {{fontSize: 25, color: '#FFF'}}>

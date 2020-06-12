@@ -8,20 +8,21 @@ import {
   View,
   TextInput
 } from "react-native";
-
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 
 import LeaderBoard from './leaderboard'
 
 const LeaderBoardModal = () => {
     const [modalVisible, setModalVisible] = useState(false);
+
+
     const onPress = () =>{
         setModalVisible(true)
     }
   
 
   return (
-    <View style={styles.centeredView}>
+    <View style={{flex: 1}}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -60,7 +61,10 @@ const LeaderBoardModal = () => {
           </View>
         </View>
       </Modal>
-      <LeaderBoard onPress = {() => onPress()}/>
+      <View style = {{flex: 1}}>
+        <LeaderBoard onPress = {() => onPress()}/>
+      </View>
+      
     </View>
   );
 };

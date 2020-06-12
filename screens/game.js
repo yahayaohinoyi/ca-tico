@@ -10,13 +10,16 @@ import {
 } from 'react-native';
 
 
+import DeviceInfo from 'react-native-device-info';
+import { getUniqueId, getManufacturer } from 'react-native-device-info';
+let uniqueId = DeviceInfo.getUniqueId();
+import {FireBaseContext} from '../store/getdata'
+
 import { v4 as uuidv4 } from 'uuid';
 import CountDown from 'react-native-countdown-component';
 
-
 import Card from '../components/card'
-import {useState, useEffect} from 'react'
-// const obj = require('../Rules/rule')
+import {useState, useEffect, useContext} from 'react'
 import Stack from '../Rules/rule'
 import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
@@ -34,13 +37,26 @@ const GameScreen = (props) => {
     const [arr, setArr] = useState(fisher.outArray)
     const [resetTimer, setResetTimer] = useState(10)
 
-    let _map = new Map()
+    // const [data, setData] = useState([])
+    // const [highScore, setHighScore] = useState(0)
+    // const dataContext = useContext(FireBaseContext).data
+    // console.log(dataContext[uniqueId]['highScore'])
 
+    // useEffect(() => {
+    //     var myData = Object.values(dataContext)
+    //     setData(myData)
+    // }, [])
+
+    // useEffect(() => {
+    //     setData(dataContext[uniqueId]['highScore'])
+    // }, [data])
+
+
+    let _map = new Map()
     for(let i = 0; i < arr.length; i ++){
         _map[arr[i].id] = i
     }
     const clickCard = id => {
-        // console.log(_map[id])
         if(!arr[_map[id]].clicked){
             setCounter(counter + 1)
             stackObj.push(arr[_map[id]].num)    
@@ -177,7 +193,7 @@ const GameScreen = (props) => {
                     <Text style = {{fontWeight: '900', fontSize: 20}}>{}</Text>
                     </View>
                     <View style = {{marginRight: 15, marginTop: 40}}>
-                        <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {Math.max(4, score)}</Text>
+                        <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {10}</Text>
                         <Animatable.Text animation = 'rubberBand' style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Animatable.Text>
                     </View>
                 </View>
