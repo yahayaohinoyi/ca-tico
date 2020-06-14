@@ -1,8 +1,9 @@
 export default class Stack {
-    constructor(){
+    constructor(instruction){
         this.data = [];
         this.top = 0;
         this.states = []
+        this.instruction = instruction
     }
     push(element) {
         if(this.top === 0) {
@@ -59,12 +60,30 @@ export default class Stack {
    validate(){
        var temp = [...this.data]
        temp.sort()
-       for (let i = 0; i < temp.length; i ++){
-           if(temp[i] != this.data[i]){
-               return false
-           }
-       }
-       return true
+    
+    if(this.instruction === 'ASCEND'){
+        console.log('ascend')
+        for (let i = 0; i < temp.length; i ++){
+            if(temp[i] != this.data[i]){
+                return false
+            }
+        }
+        return true
+    }
+
+   else{
+       console.log('descend')
+       var j = 0
+        for (let i = temp.length - 1; i > -1; i --){
+            if(temp[i] != this.data[j]){
+                return false
+            }
+            j += 1
+        }
+        return true
+
+    }
+       
    }
 
 }

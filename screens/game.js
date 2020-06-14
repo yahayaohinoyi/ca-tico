@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-
+import firebase from 'firebase'
 import DeviceInfo from 'react-native-device-info';
 import { getUniqueId, getManufacturer } from 'react-native-device-info';
 let uniqueId = DeviceInfo.getUniqueId();
@@ -23,33 +23,40 @@ import {useState, useEffect, useContext} from 'react'
 import Stack from '../Rules/rule'
 import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
+import Instruction from './instruction';
 
 const GameScreen = (props) => {
     var fisher = new GenerateRandom()
-    var out = fisher.output(6)
+    var out = fisher.output(3)
     fisher.mapOut(out)
 
+    const [probVal, setProbVal] = useState(8)
+    const [difficulty, setDifficulty] = useState(3)
+    const [instruction, setInstruction] = useState('ASCEND')
     const [whoosh, setWoosh] = useState(whoosh)
     const [id, setId] = useState(Math.floor(Math.random() * (100000 - 0)) + 0)
-    const [stackObj, setStackObj] = useState(new Stack())
+    const [stackObj, setStackObj] = useState(new Stack('ASCEND'))
     const [score, setScore] = useState(0)
     const [counter, setCounter] = useState(0)
     const [arr, setArr] = useState(fisher.outArray)
     const [resetTimer, setResetTimer] = useState(10)
 
-    // const [data, setData] = useState([])
-    // const [highScore, setHighScore] = useState(0)
-    // const dataContext = useContext(FireBaseContext).data
+    const [data, setData] = useState([])
+    const [highScore, setHighScore] = useState(0)
+    const dataContext = useContext(FireBaseContext).data
     // console.log(dataContext[uniqueId]['highScore'])
 
-    // useEffect(() => {
-    //     var myData = Object.values(dataContext)
-    //     setData(myData)
-    // }, [])
+    useEffect(() => {
+        var myData = Object.values(dataContext)
+        setData(myData)
+    }, [])
 
-    // useEffect(() => {
-    //     setData(dataContext[uniqueId]['highScore'])
-    // }, [data])
+    useEffect(() => {
+        setHighScore(dataContext[uniqueId]['highScore'])
+        setInstruction(instruction)
+    }, [data, instruction])
+
+    
 
 
     let _map = new Map()
@@ -75,10 +82,12 @@ const GameScreen = (props) => {
                     setArr(createNewRandomInstance().outArray)
                     setScore(score + 1)
                     setCounter(0)
-                    setStackObj(new Stack())
+                    let my_instruction = makeInstruction()
+                    setStackObj(new Stack(my_instruction))
                     setResetTimer(10)
                     setId(Math.floor(Math.random() * (100000 - 0)) + 0)
                     // console.log(id)
+                    
                     soundEffect('test1.mp3')
                 }
 
@@ -89,10 +98,28 @@ const GameScreen = (props) => {
         } 
     }
 
+    const makeInstruction = () => {
+        if (score % 10 === 0 && probVal < 70){
+            setProbVal(probVal + 15)
+        }
+        var rand = Math.floor(Math.random() * (100 - 0)) + 0
+        if(rand < probVal){
+            setInstruction('DESCEND')
+            return 'DESCEND'
+            
+        }
+        else{
+            setInstruction('ASCEND')
+            return 'ASCEND'
+        }
+    }
 
     const createNewRandomInstance = () => {
-        var fisher = new GenerateRandom()
-        var out = fisher.output(6)
+        var fisher = new GenerateRandom(difficulty)
+        if(score % 4 == 0 && difficulty < 6){
+            setDifficulty(difficulty + 1)
+        }
+        var out = fisher.output(difficulty)
         fisher.mapOut(out)
         return fisher
     }
@@ -100,8 +127,8 @@ const GameScreen = (props) => {
     const handleCardStyle = (clicked) => {
         if (!clicked) {
             return {
-                height: 80,
-                width: 80,
+                height: 70,
+                width: 70,
                 borderRadius: 400,
                 backgroundColor: '#fff',
                 alignItems: 'center',
@@ -109,8 +136,8 @@ const GameScreen = (props) => {
             }
         }
         return {
-            height: 80,
-            width: 80,
+            height: 70,
+            width: 70,
             borderRadius: 400,
             backgroundColor: '#171727',
             alignItems: 'center',
@@ -120,17 +147,21 @@ const GameScreen = (props) => {
     const handleTextStyle =(clicked) => {
         if (!clicked) {
             return {
-                fontSize: 35,
+                fontSize: 28,
                 color: '#171727',
                 fontWeight: '600'
             }
         }
         return {
-            fontSize: 35,
+            fontSize: 28,
             color: '#FFF',
             fontWeight: '600'
         }
         }
+
+    const updateHighScore = () => {
+        return Math.max(score, highScore)
+    }
 
     const soundEffect = (filename) => {
         var Sound = require('react-native-sound');
@@ -158,9 +189,31 @@ const GameScreen = (props) => {
 
 
     const onFailRound = (aud) => {
-        soundEffect(aud)
-        setScore(0)
-        props.handleCompleteTime()
+        if(score > highScore){
+            setHighScore(score)
+            const firebaseConfig = {
+                apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
+                authDomain: "caotico-b8650.firebaseapp.com",
+                databaseURL: "https://caotico-b8650.firebaseio.com",
+                projectId: "caotico-b8650",
+                storageBucket: "caotico-b8650.appspot.com",
+                messagingSenderId: "785688806738",
+                appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
+                measurementId: "G-3MTKKNNEWJ"
+            };
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }else{
+                firebase.app()
+            }
+            
+            firebase.database().ref(`users/${uniqueId}`).update({
+                highScore: score
+            })
+            }
+            soundEffect(aud)
+            setScore(0)
+            props.handleCompleteTime()
 
     }
 
@@ -193,7 +246,7 @@ const GameScreen = (props) => {
                     <Text style = {{fontWeight: '900', fontSize: 20}}>{}</Text>
                     </View>
                     <View style = {{marginRight: 15, marginTop: 40}}>
-                        <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {10}</Text>
+                        <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {updateHighScore()}</Text>
                         <Animatable.Text animation = 'rubberBand' style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Animatable.Text>
                     </View>
                 </View>
@@ -201,7 +254,7 @@ const GameScreen = (props) => {
                     {renderTimer}
                 </View>
             </View>
-            <View style = {{flex: 0.5, marginTop: 20}}>
+            <View style = {{flex: 0.65, marginTop: 20}}>
                 {
                 arr.map(comp => {
                     return <Card key = {comp.num}
@@ -214,6 +267,11 @@ const GameScreen = (props) => {
                 }) 
                 }
             </View>
+            <Animatable.View animation = 'flash' style = {{flexDirection: 'column-reverse', justifyContent:'flex-end', alignItems: 'center'}}>
+                <Animatable.Text key = {score + 1} animation = 'flash' style = {{color: '#fff', fontSize: 30, fontWeight: '800'}}>
+                    {instruction}
+                </Animatable.Text>
+            </Animatable.View>
 
         </SafeAreaView>
       </>

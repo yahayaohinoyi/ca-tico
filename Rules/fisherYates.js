@@ -1,12 +1,11 @@
 export default class GenerateRandom {
-    constructor(){
-
+    constructor(val = 2){
         this.outArray = []
         this.screenSize = 400
         this.numbers = []
         this.dimensions = [] 
-        this.rand = Math.floor(Math.random() * (2 - 0)) + 0
-        if (this.rand === 1){
+        this.rand = Math.floor(Math.random() * (val - 0)) + 0
+        if (this.rand < 1){
             for (let i = 0; i < this.screenSize; i++){
                 if (i < 10){
                     this.numbers.push(i)
