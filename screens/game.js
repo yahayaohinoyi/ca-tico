@@ -44,7 +44,7 @@ const GameScreen = (props) => {
     const [data, setData] = useState([])
     const [highScore, setHighScore] = useState(0)
     const dataContext = useContext(FireBaseContext).data
-    // console.log(dataContext[uniqueId]['highScore'])
+    const [failed, setFailed] = useState(false)
 
     useEffect(() => {
         var myData = Object.values(dataContext)
@@ -93,6 +93,7 @@ const GameScreen = (props) => {
 
             }
             else{
+                whoosh.stop(()=>{})
                 onFailRound('failed.mp3')
             }
         } 
@@ -185,6 +186,7 @@ const GameScreen = (props) => {
               }
             });
           });
+
     }
 
 
@@ -211,8 +213,9 @@ const GameScreen = (props) => {
                 highScore: score
             })
             }
+            setFailed(true)
             soundEffect(aud)
-            setScore(0)
+            // setScore(0)
             props.handleCompleteTime()
 
     }
@@ -224,7 +227,10 @@ const GameScreen = (props) => {
                 <CountDown
                     id = {id.toString()}
                     until={resetTimer}
-                    onFinish={() => onFailRound('failed.mp3')}
+                    onFinish={() => failed ? {} : onFailRound('failed.mp3')
+                        // if(!failed){onFailRound('failed.mp3')}
+                         
+                        }
                     // onPress={() => alert('hello')}
                     size={20}
                     timeToShow={['S']}
