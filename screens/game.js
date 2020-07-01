@@ -93,7 +93,7 @@ const GameScreen = (props) => {
 
             }
             else{
-                whoosh.stop(()=>{})
+                // whoosh.stop(()=>{})
                 onFailRound('failed.mp3')
             }
         } 
@@ -169,6 +169,7 @@ const GameScreen = (props) => {
         Sound.setCategory('Playback');
         const dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
         var whoosh = new Sound(dir, '', (error) => {
+            
             if (error) {
               console.log('failed to load the sound');
               return;
@@ -178,11 +179,12 @@ const GameScreen = (props) => {
            
             // Play the sound with an onEnd callback
             whoosh.play((success) => {
+                console.log('here')
                 setWoosh(whoosh)
               if (success) {
-                // console.log('successfully finished playing');
+                console.log('successfully finished playing');
               } else {
-                // console.log('playback failed due to audio decoding errors');
+                console.log('playback failed due to audio decoding errors');
               }
             });
           });
@@ -232,7 +234,7 @@ const GameScreen = (props) => {
                          
                         }
                     // onPress={() => alert('hello')}
-                    size={20}
+                    size={18}
                     timeToShow={['S']}
                     digitStyle={{backgroundColor: '#5E6472'}}
                     digitTxtStyle={{color: '#fff'}}
@@ -246,17 +248,17 @@ const GameScreen = (props) => {
     return (
       <>
         <SafeAreaView style = {{flex: 1, backgroundColor: '#5E6472'}}>
-            <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 1000, borderBottomRightRadius: 1000}}>
+            <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60}}>
                     <View style = {{marginLeft: 15, marginTop: 10 }}>
                     <Text style = {{fontWeight: '900', fontSize: 20}}>{}</Text>
                     </View>
-                    <View style = {{marginRight: 15, marginTop: 40}}>
+                    <View style = {{marginRight: 15, marginTop: 20}}>
                         <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {updateHighScore()}</Text>
                         <Animatable.Text animation = 'rubberBand' style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Animatable.Text>
                     </View>
                 </View>
-                <View style = {{alignItems: 'center'}}>
+                <View style = {{alignItems: 'center', marginBottom: 10}}>
                     {renderTimer}
                 </View>
             </View>

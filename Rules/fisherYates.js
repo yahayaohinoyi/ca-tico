@@ -4,8 +4,8 @@ export default class GenerateRandom {
         this.screenSize = 400
         this.numbers = []
         this.dimensions = [] 
-        this.rand = Math.floor(Math.random() * (val - 0)) + 0
-        if (this.rand < 1){
+        this.rand = Math.floor(Math.random() * (10 - 0)) + 0
+        if (this.rand > 5){
             for (let i = 0; i < this.screenSize; i++){
                 if (i < 10){
                     this.numbers.push(i)

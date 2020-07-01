@@ -77,6 +77,7 @@ const Home = (props) => {
             <View style = {{alignItems: 'center', flex: 0.4}}>
                 <CustomButton text = 'PLAY GAME' onPress = {() => props.navigation.navigate('GameScreenModal')}/>
                 <CustomButton text = 'LEADERBOARD' onPress = {() => props.navigation.navigate('LeaderBoardModal')}/>
+                <CustomButton text = 'MULTIPLAYER' onPress = {() => props.navigation.navigate('MultiplayerGameScreen')}/>
                 <CustomButton text = 'INSTRUCTION' onPress = {() => props.navigation.navigate('Instruction')}/>
             </View>
 
