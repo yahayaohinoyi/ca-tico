@@ -6,7 +6,8 @@ import {
   View,
   Text,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 
 import firebase from 'firebase'
@@ -24,6 +25,7 @@ import Stack from '../Rules/rule'
 import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
 import Instruction from './instruction';
+import LinearGradient from 'react-native-linear-gradient'
 
 const GameScreen = (props) => {
     var fisher = new GenerateRandom()
@@ -33,7 +35,7 @@ const GameScreen = (props) => {
     const [probVal, setProbVal] = useState(8)
     const [difficulty, setDifficulty] = useState(3)
     const [instruction, setInstruction] = useState('ASCEND')
-    const [whoosh, setWoosh] = useState(whoosh)
+    // const [whoosh, setWoosh] = useState(whoosh)
     const [id, setId] = useState(Math.floor(Math.random() * (100000 - 0)) + 0)
     const [stackObj, setStackObj] = useState(new Stack('ASCEND'))
     const [score, setScore] = useState(0)
@@ -167,9 +169,16 @@ const GameScreen = (props) => {
     const soundEffect = (filename) => {
         var Sound = require('react-native-sound');
         Sound.setCategory('Playback');
-        const dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
-        var whoosh = new Sound(dir, '', (error) => {
-            
+        var dir = ''
+        var gameSound = ''
+        if(Platform.OS === 'android'){
+            dir = filename
+            gameSound = Sound.MAIN_BUNDLE
+        }
+        else{
+            dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
+        }
+        var whoosh = new Sound(dir, gameSound, (error) => {           
             if (error) {
               console.log('failed to load the sound');
               return;
@@ -178,17 +187,21 @@ const GameScreen = (props) => {
             // console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
            
             // Play the sound with an onEnd callback
-            whoosh.play((success) => {
-                console.log('here')
-                setWoosh(whoosh)
-              if (success) {
-                console.log('successfully finished playing');
-              } else {
-                console.log('playback failed due to audio decoding errors');
-              }
-            });
-          });
+            
+            else{
+                whoosh.play((success) => {
 
+                    if (success) {
+                      console.log('successfully finished playing');
+                    } else {
+                      console.log('playback failed due to audio decoding errors');
+                    }
+                  });
+            }
+            
+
+          });
+          
     }
 
 
@@ -228,16 +241,18 @@ const GameScreen = (props) => {
     const renderTimer =
                 <CountDown
                     id = {id.toString()}
+                
                     until={resetTimer}
-                    onFinish={() => failed ? {} : onFailRound('failed.mp3')
+                    onFinish={ failed ? {}: () => onFailRound('failed.mp3')
                         // if(!failed){onFailRound('failed.mp3')}
-                         
+                        
                         }
-                    // onPress={() => alert('hello')}
-                    size={18}
+                    style = {{borderWidth: 2, borderColor: '#5E6472', borderRadius: 40}}
+                    size={16}
                     timeToShow={['S']}
-                    digitStyle={{backgroundColor: '#5E6472'}}
-                    digitTxtStyle={{color: '#fff'}}
+                    timeLabels={{m: null, s: null}}
+                    digitStyle={{backgroundColor: '#fff'}}
+                    digitTxtStyle={{color: '#5E6472'}}
                 />
     
 
@@ -247,7 +262,9 @@ const GameScreen = (props) => {
     
     return (
       <>
-        <SafeAreaView style = {{flex: 1, backgroundColor: '#5E6472'}}>
+      
+        <LinearGradient colors={['#5E6366', '#4E656E', '#49859A']} style = {{flex: 1, backgroundColor: '#5E6472'}}>
+        <SafeAreaView style = {{flex: 1}}>
             <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60}}>
                     <View style = {{marginLeft: 15, marginTop: 10 }}>
@@ -280,8 +297,9 @@ const GameScreen = (props) => {
                     {instruction}
                 </Animatable.Text>
             </Animatable.View>
-
-        </SafeAreaView>
+            </SafeAreaView>
+        </LinearGradient>
+        
       </>
     );
   };

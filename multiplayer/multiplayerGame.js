@@ -31,6 +31,10 @@ import Stack from '../Rules/rule'
 import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
 import Instruction from '../screens/instruction';
+import LinearGradient from 'react-native-linear-gradient'
+
+
+import Timer from './timer'
 
 const channels = ['gameLobby'];
 
@@ -90,10 +94,10 @@ const MultiplayerGameScreen = (props) => {
                     setIsWating(false)
                     setIsplaying(true)
                 }
-                else if(messageEvent.message.isPacketData){
-                    setResetTimer(10)
+                else if(messageEvent.message.isPacketData){        
                     setArr(messageEvent.message.packetData)
-                    
+                    // setId(Math.floor(Math.random() * (100000 - 0)) + 0)
+                    setResetTimer(messageEvent.message.new_time)
                 }
 
             }
@@ -125,6 +129,7 @@ const MultiplayerGameScreen = (props) => {
             if(stackObj.validate()){
                 if(stackObj.getArr().length === arr.length){
                     whoToPlay()
+                    
                     // else{
                     //     setArr(createNewRandomInstance().outArray)
                     // }
@@ -133,7 +138,7 @@ const MultiplayerGameScreen = (props) => {
                     let my_instruction = makeInstruction()
                     setStackObj(new Stack(my_instruction))
                     setResetTimer(10)
-                    setId(Math.floor(Math.random() * (100000 - 0)) + 0)
+                    // setId(Math.floor(Math.random() * (100000 - 0)) + 0)
                     // console.log(id)
                     setMyScore(myScore + 1)
                     setMultiplayerGameCounter(multiplayerGameCounter + 1)
@@ -267,18 +272,20 @@ const MultiplayerGameScreen = (props) => {
         if(multiplayerGameCounter < 14 && myScore < 7 && opponentScore < 7){
             setMultiplayerGameCounter(multiplayerGameCounter + 1)
             if(host && multiplayerGameCounter % 2 == 0 ){
+                console.log('ishost')
                 whoToPlay() 
             }
             else if(client && multiplayerGameCounter % 2 !== 0){
+                console.log('isclient')
                 whoToPlay()
             }
-                 
-            setResetTimer(10)        
+            setId(Math.floor(Math.random() * (100000 - 0)) + 0)
+
+            // setResetTimer(10)        
             setScore(score + 1)
             setCounter(0)
             let my_instruction = makeInstruction()
             setStackObj(new Stack(my_instruction))
-            setId(Math.floor(Math.random() * (100000 - 0)) + 0)
         }
         // soundEffect(aud)
         // setScore(0)
@@ -384,12 +391,14 @@ const MultiplayerGameScreen = (props) => {
         pubnub.publish({
             message: {
                 isPacketData: true, 
-                packetData: new_instance
+                packetData: new_instance,
+                new_time: 10
             },
             channel: `${gameId}`
             });
-        setArr(new_instance)
         setResetTimer(10)
+        // setArr(new_instance)
+        
             
 
     }
@@ -397,21 +406,25 @@ const MultiplayerGameScreen = (props) => {
  
     
     
-    const renderTimer =
-                <CountDown
+    const renderTimer = () => {
+        return  <CountDown
                     id = {id.toString()}
+                    // key = {multiplayerGameCounter}
                     until={resetTimer}
-                    onFinish={() => failed ? {} : onFailRound('failed.mp3')
+                    onFinish={ failed ? {}: () => onFailRound('failed.mp3')
                         // if(!failed){onFailRound('failed.mp3')}
-                         
+                        
                         }
-                    // onPress={() => alert('hello')}
+                    style = {{borderWidth: 2, borderColor: '#5E6472', borderRadius: 40}}
                     size={16}
                     timeToShow={['S']}
-                    digitStyle={{backgroundColor: '#5E6472'}}
-                    digitTxtStyle={{color: '#fff'}}
+                    timeLabels={{m: null, s: null}}
+                    digitStyle={{backgroundColor: '#fff'}}
+                    digitTxtStyle={{color: '#5E6472'}}
                 />
-    
+    }
+
+
 
     
     
@@ -419,21 +432,15 @@ const MultiplayerGameScreen = (props) => {
     
     return (
       <>
-        {isPlaying && <SafeAreaView style = {{flex: 1, backgroundColor: '#5E6472'}}>
+        <LinearGradient style = {{flex: 1}} colors={['#5E6366', '#4E656E', '#49859A']}>
+        {isPlaying && <SafeAreaView style = {{flex: 1}}>
             <View style = {{flex: 0.3 ,backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
-                <View style = {{flexDirection: 'row', justifyContent: 'space-around', marginTop: 15}}>
-                    <View style = {{alignItems: 'center'}}> 
-                        <Text>Player 1</Text>
-                        <Text>8</Text>
-                    </View>
-                    <View style = {{alignItems: 'center'}}>
-                        <Text>player 2</Text>
-                        <Text>9</Text>
-                    </View>
+                <View style = {{flex: 0.8}}>
+
                 </View>
                 <View style = {{alignItems: 'center' , marginBottom: 6}}>
-                    {renderTimer}
-                </View>
+                    {renderTimer()}
+                </View> 
             </View>
             <View style = {{flex: 0.65, marginTop: 20}}>
                 {
@@ -454,31 +461,27 @@ const MultiplayerGameScreen = (props) => {
                 </Animatable.Text>
             </Animatable.View>
 
-        </SafeAreaView>}
-
+        </SafeAreaView> }
         { isWaiting && !isPlaying &&
-            <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#5E6472'}}>
+            <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
                 <Circle />
+                <Text style = {{paddingTop: 30}}> Waiting for opponent...</Text>
             </SafeAreaView>
-            
+          
         }
-        {!isPlaying && <SafeAreaView style = {{flex: 1, backgroundColor: '#5E6472', alignItems: 'center', justifyContent: 'center'}}>
+        {!isPlaying && <SafeAreaView style = {{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity 
-                style = {{height: 40, width: 120, borderWidth: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 5}}
+                style = {{height: 40, width: 300, borderWidth: 1,borderRadius: 30, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 5}}
                 onPress = {onPressCreateRoom}>
                 <Text>HOST</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                style = {{height: 40, width: 120, borderWidth: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center'}}
+                style = {{height: 40, width: 300, borderWidth: 1,borderRadius: 30, borderColor: '#fff', alignItems: 'center', justifyContent: 'center'}}
                 onPress = {onPressJoinRoom}>
                 <Text>JOIN</Text>
             </TouchableOpacity>
-
-
-            
-            
-
         </SafeAreaView>}
+        </LinearGradient>
       </>
     );
   };

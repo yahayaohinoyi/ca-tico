@@ -14,7 +14,7 @@ const CustomButton = (props) => {
     return (
       <>
         <TouchableOpacity style = {styles.buttonStyle} onPress = {props.onPress}>
-            <Text style = {{fontSize: 22, color: '#FFF'}}>
+            <Text style = {{fontSize: 22, color: '#171727'}}>
                 {props.text}
             </Text>
 
@@ -25,10 +25,10 @@ const CustomButton = (props) => {
   
   const styles = StyleSheet.create({
       buttonStyle : {
-          height: 63,
-          width: 302,
-          backgroundColor: '#171727',
-          borderRadius: 40,
+          height: 50,
+          width: 290,
+          backgroundColor: '#fff',
+          borderRadius: 45,
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 10,

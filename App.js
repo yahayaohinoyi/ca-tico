@@ -41,6 +41,8 @@ import GameScreenModal from './components/modal'
 import LeaderBoardModal from './components/changeUserModal'
 import MultiplayerGameScreen from './multiplayer/multiplayerGame'
 
+
+
 const Stack = createStackNavigator();
 const pubnub = new PubNub({
   publishKey: 'pub-c-6ca7c8fb-75cf-4d29-bb5b-f29ed5c6c1c9',
@@ -48,10 +50,12 @@ const pubnub = new PubNub({
 });
 const channels = ['awesomeChannel'];
 
+
 const App = () => {
 
   return (
     <>
+
     <PubNubProvider client = {pubnub}>
       <Store>
         <NavigationContainer>

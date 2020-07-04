@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* caoticaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* caoticaTests.m */; };
+		045B056924AD320000198138 /* failed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056324AD31FF00198138 /* failed.mp3 */; };
+		045B056A24AD320000198138 /* test1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056424AD31FF00198138 /* test1.mp3 */; };
+		045B056B24AD320000198138 /* bubble_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056524AD31FF00198138 /* bubble_1.mp3 */; };
+		045B056C24AD320000198138 /* unbubble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056624AD31FF00198138 /* unbubble.mp3 */; };
+		045B056D24AD320000198138 /* test.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056724AD31FF00198138 /* test.mp3 */; };
+		045B056E24AD320000198138 /* bubble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 045B056824AD320000198138 /* bubble.mp3 */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -44,6 +50,12 @@
 		00E356EE1AD99517003FC87E /* caoticaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = caoticaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* caoticaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = caoticaTests.m; sourceTree = "<group>"; };
+		045B056324AD31FF00198138 /* failed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failed.mp3; sourceTree = "<group>"; };
+		045B056424AD31FF00198138 /* test1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = test1.mp3; sourceTree = "<group>"; };
+		045B056524AD31FF00198138 /* bubble_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bubble_1.mp3; sourceTree = "<group>"; };
+		045B056624AD31FF00198138 /* unbubble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unbubble.mp3; sourceTree = "<group>"; };
+		045B056724AD31FF00198138 /* test.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = test.mp3; sourceTree = "<group>"; };
+		045B056824AD320000198138 /* bubble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bubble.mp3; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* caotica.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = caotica.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = caotica/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = caotica/AppDelegate.m; sourceTree = "<group>"; };
@@ -134,7 +146,6 @@
 				FF7719B18A3414AD0CD0DE65 /* Pods-caotica-tvOSTests.debug.xcconfig */,
 				3657238C563A8848AB298D49 /* Pods-caotica-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -175,6 +186,12 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				045B056524AD31FF00198138 /* bubble_1.mp3 */,
+				045B056824AD320000198138 /* bubble.mp3 */,
+				045B056324AD31FF00198138 /* failed.mp3 */,
+				045B056724AD31FF00198138 /* test.mp3 */,
+				045B056424AD31FF00198138 /* test1.mp3 */,
+				045B056624AD31FF00198138 /* unbubble.mp3 */,
 				13B07FAE1A68108700A75B9A /* caotica */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* caoticaTests */,
@@ -338,8 +355,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045B056A24AD320000198138 /* test1.mp3 in Resources */,
+				045B056B24AD320000198138 /* bubble_1.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				045B056C24AD320000198138 /* unbubble.mp3 in Resources */,
+				045B056E24AD320000198138 /* bubble.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				045B056D24AD320000198138 /* test.mp3 in Resources */,
+				045B056924AD320000198138 /* failed.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
