@@ -49,12 +49,12 @@ const GameScreen = (props) => {
     const [failed, setFailed] = useState(false)
 
     useEffect(() => {
-        var myData = Object.values(dataContext)
-        setData(myData)
+        // var myData = Object.values(dataContext)
+        // setData(myData)
     }, [])
 
     useEffect(() => {
-        setHighScore(dataContext[uniqueId]['highScore'])
+        // setHighScore(dataContext[uniqueId]['highScore'])
         setInstruction(instruction)
     }, [data, instruction])
 
@@ -158,7 +158,7 @@ const GameScreen = (props) => {
         return {
             fontSize: 28,
             color: '#FFF',
-            fontWeight: '600'
+            fontWeight: '600',
         }
         }
 
@@ -243,7 +243,7 @@ const GameScreen = (props) => {
                     id = {id.toString()}
                 
                     until={resetTimer}
-                    onFinish={ failed ? {}: () => onFailRound('failed.mp3')
+                    onFinish={ failed ? () => {}: () => onFailRound('failed.mp3')
                         // if(!failed){onFailRound('failed.mp3')}
                         
                         }
@@ -268,11 +268,11 @@ const GameScreen = (props) => {
             <View style = {{flex: 0.3, backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
                 <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 60}}>
                     <View style = {{marginLeft: 15, marginTop: 10 }}>
-                    <Text style = {{fontWeight: '900', fontSize: 20}}>{}</Text>
+                         <Text style = {{fontWeight: '900', fontSize: 20, fontFamily:'Bangers-Regular'}}>caótico {' '}</Text>
                     </View>
                     <View style = {{marginRight: 15, marginTop: 20}}>
-                        <Text style = {{color: '#264653', fontSize: 19}}>HIGHSCORE: {updateHighScore()}</Text>
-                        <Animatable.Text animation = 'rubberBand' style = {{color: '#264653', fontSize: 19}}>SCORE: {score}</Animatable.Text>
+                        <Text style = {{color: '#264653', fontSize: 24, fontFamily: 'Bangers-Regular'}}>HIGHSCORE: {updateHighScore() + ' '}</Text>
+                        <Animatable.Text key = {score} animation = 'rubberBand' style = {{color: '#264653', fontSize: 20}}>SCORE: {score}</Animatable.Text>
                     </View>
                 </View>
                 <View style = {{alignItems: 'center', marginBottom: 10}}>
@@ -293,8 +293,8 @@ const GameScreen = (props) => {
                 }
             </View>
             <Animatable.View animation = 'flash' style = {{flexDirection: 'column-reverse', justifyContent:'flex-end', alignItems: 'center'}}>
-                <Animatable.Text key = {score + 1} animation = 'flash' style = {{color: '#fff', fontSize: 30, fontWeight: '800'}}>
-                    {instruction}
+                <Animatable.Text key = {score + 1} animation = 'flash' style = {{color: '#fff', fontSize: 50, fontWeight: '800', fontFamily:'Bangers-Regular'}} >
+                    {instruction + ' '}
                 </Animatable.Text>
             </Animatable.View>
             </SafeAreaView>

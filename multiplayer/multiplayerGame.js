@@ -32,9 +32,15 @@ import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
 import Instruction from '../screens/instruction';
 import LinearGradient from 'react-native-linear-gradient'
+// import * as Progress from 'react-native-progress';
+import ProgressBar from 'react-native-progress/Bar'
+import Leaderboard from 'react-native-leaderboard';
+
+
 
 
 import Timer from './timer'
+// import Toast from 'react-native-simple-toast';
 
 const channels = ['gameLobby'];
 
@@ -70,6 +76,8 @@ const MultiplayerGameScreen = (props) => {
     const [myScore, setMyScore] = useState(0)
     const [opponentScore, setOpponentScore] = useState(0)
 
+    const [toast, setToast] = useState(false)
+
     useEffect(() => {
         var myData = Object.values(dataContext)
         setData(myData)
@@ -77,14 +85,14 @@ const MultiplayerGameScreen = (props) => {
 
     useEffect(() => {
         setHighScore(dataContext[uniqueId]['highScore'])
-        setInstruction(instruction)
+        // setInstruction(instruction)
     }, [data, instruction])
 
     useEffect(() => {
         pubnub.subscribe({channels})
         pubnub.addListener({
             message: messageEvent => {
-                console.log(messageEvent.message, host)
+                // console.log(messageEvent.message, host)
                 if(host && messageEvent.message.readyToPlay){
                     setIsWating(false)
                     setIsplaying(true)
@@ -94,10 +102,22 @@ const MultiplayerGameScreen = (props) => {
                     setIsWating(false)
                     setIsplaying(true)
                 }
-                else if(messageEvent.message.isPacketData){        
+                else if(messageEvent.message.isPacketData){  
+                    setStackObj(new Stack(messageEvent.message.instruction))      
                     setArr(messageEvent.message.packetData)
-                    // setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-                    setResetTimer(messageEvent.message.new_time)
+                    setMultiplayerGameCounter(messageEvent.message.game_number)
+                    // setId('abcdefghijklmn'.charCodeAt(multiplayerGameCounter))
+                    setId(Math.random().toString(36).substr(2, 5))
+                    setInstruction(messageEvent.message.instruction)
+                    setResetTimer(10)
+                    setToast(true)
+                    if(messageEvent.message.isHost && client){
+                        setOpponentScore(messageEvent.message.myScore)
+                    }
+                    else if(!messageEvent.message.isHost && host){
+                        setOpponentScore(messageEvent.message.myScore)
+                    }
+
                 }
 
             }
@@ -129,20 +149,9 @@ const MultiplayerGameScreen = (props) => {
             if(stackObj.validate()){
                 if(stackObj.getArr().length === arr.length){
                     whoToPlay()
-                    
-                    // else{
-                    //     setArr(createNewRandomInstance().outArray)
-                    // }
                     setScore(score + 1)
                     setCounter(0)
-                    let my_instruction = makeInstruction()
-                    setStackObj(new Stack(my_instruction))
-                    setResetTimer(10)
-                    // setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-                    // console.log(id)
-                    setMyScore(myScore + 1)
-                    setMultiplayerGameCounter(multiplayerGameCounter + 1)
-                    
+                    setMyScore(myScore + 1)                    
                     soundEffect('test1.mp3')
                 }
 
@@ -246,51 +255,18 @@ const MultiplayerGameScreen = (props) => {
 
 
     const onFailRound = (aud) => {
-        // if(score > highScore){
-        //     setHighScore(score)
-        //     const firebaseConfig = {
-        //         apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
-        //         authDomain: "caotico-b8650.firebaseapp.com",
-        //         databaseURL: "https://caotico-b8650.firebaseio.com",
-        //         projectId: "caotico-b8650",
-        //         storageBucket: "caotico-b8650.appspot.com",
-        //         messagingSenderId: "785688806738",
-        //         appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
-        //         measurementId: "G-3MTKKNNEWJ"
-        //     };
-        //     if (!firebase.apps.length) {
-        //         firebase.initializeApp(firebaseConfig);
-        //     }else{
-        //         firebase.app()
-        //     }
-            
-        //     firebase.database().ref(`users/${uniqueId}`).update({
-        //         highScore: score
-        //     })
-        //     }
-            // setFailed(true)
-        if(multiplayerGameCounter < 14 && myScore < 7 && opponentScore < 7){
-            setMultiplayerGameCounter(multiplayerGameCounter + 1)
+
+        if(multiplayerGameCounter < 14 ){
             if(host && multiplayerGameCounter % 2 == 0 ){
-                console.log('ishost')
                 whoToPlay() 
             }
             else if(client && multiplayerGameCounter % 2 !== 0){
-                console.log('isclient')
                 whoToPlay()
             }
-            setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-
-            // setResetTimer(10)        
             setScore(score + 1)
             setCounter(0)
-            let my_instruction = makeInstruction()
-            setStackObj(new Stack(my_instruction))
-        }
-        // soundEffect(aud)
-        // setScore(0)
-        // props.handleCompleteTime()
 
+        }
     }
     const onPressCreateRoom = () => {
         let roomId = shortid.generate() 
@@ -388,19 +364,24 @@ const MultiplayerGameScreen = (props) => {
 
     const whoToPlay = () => {
         let new_instance = createNewRandomInstance().outArray
+        let my_instruction = makeInstruction()
+        var host_won = false
+        if(host){
+            host_won = true
+        }
         pubnub.publish({
             message: {
                 isPacketData: true, 
                 packetData: new_instance,
-                new_time: 10
+                new_time: 10,
+                game_number: multiplayerGameCounter + 1,
+                instruction: my_instruction,
+                host_won,
+                isHost: host,
+                myScore: myScore + 1
             },
             channel: `${gameId}`
             });
-        setResetTimer(10)
-        // setArr(new_instance)
-        
-            
-
     }
 
  
@@ -408,7 +389,7 @@ const MultiplayerGameScreen = (props) => {
     
     const renderTimer = () => {
         return  <CountDown
-                    id = {id.toString()}
+                    id = {'abcdefghijklmn'.charCodeAt(multiplayerGameCounter).toString()}
                     // key = {multiplayerGameCounter}
                     until={resetTimer}
                     onFinish={ failed ? {}: () => onFailRound('failed.mp3')
@@ -433,13 +414,39 @@ const MultiplayerGameScreen = (props) => {
     return (
       <>
         <LinearGradient style = {{flex: 1}} colors={['#5E6366', '#4E656E', '#49859A']}>
-        {isPlaying && <SafeAreaView style = {{flex: 1}}>
-            <View style = {{flex: 0.3 ,backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
-                <View style = {{flex: 0.8}}>
 
+        {(myScore === 7 || opponentScore === 7) && <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+    <View style = {{marginBottom: 10}}>{(opponentScore > myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Lost! {' '}</Text>}
+    {(opponentScore < myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Won!{' '}</Text>}
+    {(opponentScore === myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>It's a Draw!{' '}</Text>}
+            </View>
+            <View style = {{width: 250}}><Leaderboard 
+                    data = {[{userName: 'Me', highScore: myScore},
+                    {userName: 'Opponent', highScore: opponentScore}]} 
+                    labelStyle = {{fontFamily:'Bangers-Regular'}}
+                    // scoreStyle = {{fontFamily:'Bangers-Regular'}}
+                    sortBy='highScore' 
+                    containerStyle = {{flex: 1, backgroundColor: 'black'}}
+                    labelBy='userName'
+                    oddRowColor = '#51626A'
+                    evenRowColor = '#4E656F'
+                        /></View></SafeAreaView>}
+        {isPlaying && (myScore < 7 && opponentScore <7) && <SafeAreaView style = {{flex: 1}}>
+            <View style = {{flex: 0.3 ,backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
+                <View style = {{flex: 0.8, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+                    <View>
+                        {<Text>ME</Text>}<ProgressBar color = '#49859A' progress={myScore/7} width={200} />
+                    </View>
+                    <View style = {{paddingTop: 30}}>
+                        {<Text>OPPONENT</Text>}<ProgressBar color = '#49859A' progress={opponentScore/7} width={200} />
+                    </View>
+
+                    {/* <Text>OPPONENT : {opponentScore}</Text>
+                    <Progress.Bar progress={0.3} width={200} /> */}
                 </View>
                 <View style = {{alignItems: 'center' , marginBottom: 6}}>
                     {renderTimer()}
+                    {}
                 </View> 
             </View>
             <View style = {{flex: 0.65, marginTop: 20}}>
@@ -462,23 +469,23 @@ const MultiplayerGameScreen = (props) => {
             </Animatable.View>
 
         </SafeAreaView> }
-        { isWaiting && !isPlaying &&
+        { isWaiting && !isPlaying && (myScore < 7 && opponentScore <7) &&
             <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
                 <Circle />
                 <Text style = {{paddingTop: 30}}> Waiting for opponent...</Text>
             </SafeAreaView>
           
         }
-        {!isPlaying && <SafeAreaView style = {{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        {!isPlaying && (myScore < 7 && opponentScore <7) && <SafeAreaView style = {{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity 
                 style = {{height: 40, width: 300, borderWidth: 1,borderRadius: 30, borderColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 5}}
                 onPress = {onPressCreateRoom}>
-                <Text>HOST</Text>
+                <Text style = {{fontFamily:'Bangers-Regular', fontSize: 20}}>HOST{' '}</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style = {{height: 40, width: 300, borderWidth: 1,borderRadius: 30, borderColor: '#fff', alignItems: 'center', justifyContent: 'center'}}
                 onPress = {onPressJoinRoom}>
-                <Text>JOIN</Text>
+                <Text style = {{fontFamily:'Bangers-Regular', fontSize: 20}}>JOIN{' '}</Text>
             </TouchableOpacity>
         </SafeAreaView>}
         </LinearGradient>

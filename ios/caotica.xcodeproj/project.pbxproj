@@ -26,6 +26,8 @@
 		6963EB0DF3087B64A64776B5 /* libPods-caotica-caoticaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E80DB9DF53AED278A23548E7 /* libPods-caotica-caoticaTests.a */; };
 		A8789E02E37DCCE4DF6A3AD3 /* libPods-caotica-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9918C2C742A2F54E17A797E /* libPods-caotica-tvOS.a */; };
 		ED5D4054534D91BAD99FDCE8 /* libPods-caotica-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64923D5E0F4C4F42646C0188 /* libPods-caotica-tvOSTests.a */; };
+		40BE87829B224FD1AAD0B697 /* Bangers-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */; };
+		22CF79CC46AB4AB08CC65D82 /* NixieOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F9918C2C742A2F54E17A797E /* libPods-caotica-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-caotica-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF7719B18A3414AD0CD0DE65 /* Pods-caotica-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-caotica-tvOSTests/Pods-caotica-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */ = {isa = PBXFileReference; name = "Bangers-Regular.ttf"; path = "../assets/fonts/Bangers-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */ = {isa = PBXFileReference; name = "NixieOne-Regular.ttf"; path = "../assets/fonts/NixieOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				0C2EA385CAFF8C61306B96C6 /* Pods */,
+				EAE88060E30846E18C1C4E01 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -214,6 +219,16 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		EAE88060E30846E18C1C4E01 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */,
+				20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -363,6 +378,8 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				045B056D24AD320000198138 /* test.mp3 in Resources */,
 				045B056924AD320000198138 /* failed.mp3 in Resources */,
+				40BE87829B224FD1AAD0B697 /* Bangers-Regular.ttf in Resources */,
+				22CF79CC46AB4AB08CC65D82 /* NixieOne-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

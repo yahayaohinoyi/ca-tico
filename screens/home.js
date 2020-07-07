@@ -17,36 +17,41 @@ let uniqueId = DeviceInfo.getUniqueId();
 import CustomButton from '../components/button'
 import {useState, useEffect, useContext} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
+import LocalStorage from '../localStorage/localStorage'
 
 
 const Home = (props) => {
     const [data, setData] = useState([])
     const [name, setName] = useState('')
     useEffect(() => {
-      const firebaseConfig = {
-      apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
-      authDomain: "caotico-b8650.firebaseapp.com",
-      databaseURL: "https://caotico-b8650.firebaseio.com",
-      projectId: "caotico-b8650",
-      storageBucket: "caotico-b8650.appspot.com",
-      messagingSenderId: "785688806738",
-      appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
-      measurementId: "G-3MTKKNNEWJ"
-      };
-      if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-      }else{
-      firebase.app()
-      }
-      firebase.database().ref('users').limitToFirst(20).on('value', (out)=>{           
-      out = out.toJSON()
-    //   console.log(out)
-      setData(out)
-      setName(out[uniqueId]['userName'])
-    //   var obj = out[uniqueId]['userName']
-    //   console.log(obj['userName'])
+    //   const firebaseConfig = {
+    //   apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
+    //   authDomain: "caotico-b8650.firebaseapp.com",
+    //   databaseURL: "https://caotico-b8650.firebaseio.com",
+    //   projectId: "caotico-b8650",
+    //   storageBucket: "caotico-b8650.appspot.com",
+    //   messagingSenderId: "785688806738",
+    //   appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
+    //   measurementId: "G-3MTKKNNEWJ"
+    //   };
+    //   if (!firebase.apps.length) {
+    //   firebase.initializeApp(firebaseConfig);
+    //   }else{
+    //   firebase.app()
+    //   }
+    //   firebase.database().ref('users').limitToFirst(20).on('value', (out)=>{           
+    //   out = out.toJSON()
+    // //   console.log(out)
+    //   setData(out)
+    //   setName(out[uniqueId]['userName'])
+    // //   var obj = out[uniqueId]['userName']
+    // //   console.log(obj['userName'])
      
-      })
+    //   })
+    let nameObj = new LocalStorage()
+    let myName = nameObj._retrieveData(uniqueId)
+    console.log(myName)
+    // setName(myName)
     }, [])
 
     return (
@@ -63,17 +68,17 @@ const Home = (props) => {
             </View>
             <View style = {{alignItems: 'center' , marginBottom: 100, flex: 0.3}}>
                 <View style = {{marginTop: 20, marginBottom: 2}}>
-                    <Text style = {{fontSize: 72, fontWeight: '700', color: '#171727'}}>caótico</Text>
+                  <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 70}}>caótico{' '}</Text>
                 </View>
                 <View style = {{flexDirection: 'row', alignItems: 'center', marginBottom: 50}}>
                     <Text style = {{fontSize: 14, color: '#FFF'}}> Hello </Text>
                     <Text style = {{fontSize: 14, color: '#FFF'}}> {name} </Text>
                 </View>
-                <View>
+                {/* <View>
                     <Text style = {{fontSize: 25, color: '#FFF'}}>
                          master 1
                     </Text>
-                </View>
+                </View> */}
             </View>
 
             <View style = {{alignItems: 'center', flex: 0.4}}>
@@ -98,6 +103,12 @@ const styles = StyleSheet.create({
         smallText : {
             fontSize: 20,
             color: '#FFF'
+        },
+        caoticoText: {
+          fontSize: 70,
+          fontFamily:'NixieOne-Regular',
+          fontWeight: '700',
+          color: '#171727'
         }
     })
 

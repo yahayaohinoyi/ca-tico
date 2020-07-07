@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   Alert,
-  Modal,
+  // Modal,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -11,6 +11,9 @@ import {
 import {useEffect, useState, useContext} from 'react'
 
 import LeaderBoard from './leaderboard'
+import Modal from 'react-native-modal'
+import LinearGradient from 'react-native-linear-gradient'
+
 
 const LeaderBoardModal = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -24,15 +27,13 @@ const LeaderBoardModal = () => {
   return (
     <View style={{flex: 1}}>
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
+        animationIn="slideInUp"
+        animationOut = 'slideOutDown'
+        isVisible={modalVisible}
+        
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#5E6366', '#4E656E', '#49859A']} style={styles.modalView}>
             <Text style={styles.modalText}>Enter a Username</Text>
 
             <View style = {{alignItems: 'center', justifyContent:'center'}}>
@@ -58,7 +59,7 @@ const LeaderBoardModal = () => {
                     </TouchableHighlight>
                 </View>
             </View>
-          </View>
+          </LinearGradient>
         </View>
       </Modal>
       <View style = {{flex: 1}}>
@@ -78,8 +79,10 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#2BCBD6",
     borderRadius: 8,
+    borderWidth: 3,
+    borderColor: '#49859A',
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     fontSize: 20,
-    color: '#E1594C'
+    color: '#fff'
   },
   inputStyle: {
       height: 37,

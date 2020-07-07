@@ -19,7 +19,7 @@ const Instruction = (props) => {
                 <SafeAreaView style = {{flex: 1}}>
                 <View style = {{alignItems: 'flex-end', paddingVertical: 10, paddingBottom: 20, paddingRight: 35}}>
                     <Text style = {styles.bigText}>
-                        INSTRUCTION
+                        INSTRUCTION {''}
                     </Text>
                 </View>
 
@@ -51,11 +51,13 @@ const Instruction = (props) => {
   const styles = StyleSheet.create({
       bigText : {
           fontSize: 25,
-          color: '#FFF'
+          color: '#FFF',
+          fontFamily:'Bangers-Regular'
       },
       smallText : {
           fontSize: 20,
-          color: '#FFF'
+          color: '#FFF',
+          fontFamily:'Bangers-Regular'
       }
   })
   export default Instruction

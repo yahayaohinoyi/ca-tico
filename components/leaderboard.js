@@ -16,8 +16,7 @@ import DeviceInfo from 'react-native-device-info';
 import { getUniqueId, getManufacturer } from 'react-native-device-info';
 let uniqueId = DeviceInfo.getUniqueId();
 import {FireBaseContext} from '../store/getdata'
-
-
+import LinearGradient from 'react-native-linear-gradient'
 
 
 const LeaderBoard = (props) => {
@@ -41,15 +40,22 @@ const LeaderBoard = (props) => {
     const renderActivityIndicator = () => {      
         if(loading){
             return(
-                <ActivityIndicator size="large" color="#0c9" style = {styles.loader}/>
+                <LinearGradient colors={['#5E6366', '#4E656E', '#49859A']} style = {{flex: 1}}>
+                    <ActivityIndicator size="large" color="#0c9" style = {styles.loader}/>
+                </LinearGradient>
             )
         }
         else{
             return (
                 <Leaderboard 
                     data={data} 
+                    labelStyle = {{fontFamily:'Bangers-Regular'}}
+                    scoreStyle = {{fontFamily:'Bangers-Regular'}}
                     sortBy='highScore' 
+                    containerStyle = {{flex: 1, backgroundColor: 'black'}}
                     labelBy='userName'
+                    oddRowColor = '#51626A'
+                    evenRowColor = '#4E656F'
                         />
             )
         }
@@ -57,9 +63,10 @@ const LeaderBoard = (props) => {
 
     return(
         <>
+            <LinearGradient style = {{flex: 1}} colors={['#5E6366', '#4E656E', '#49859A']}>
                 <SafeAreaView style = {{flex: 1}}>
 
-                     <View style = {{flex: 0.15, backgroundColor: '#0F99BD', flexDirection: 'row',justifyContent:'space-around', alignItems: 'center'}}>
+                     <View style = {{flex: 0.15, backgroundColor: '#51626A', flexDirection: 'row',justifyContent:'space-around', alignItems: 'center'}}>
                         <TouchableOpacity
                             style = {styles.deleteStyle}
                             onPress = {props.onPress}
@@ -74,15 +81,16 @@ const LeaderBoard = (props) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style = {{flex: 0.8}}> 
+                    <View style = {{flex: 0.8,justifyContent: 'center'}}> 
                         {renderActivityIndicator()}
                     </View>
 
                 <View style = {{flexDirection: 'row', marginRight: 35,paddingTop: 10, justifyContent:'flex-end', alignItems: 'center'}}>
-                    <Text style = {{fontSize: 24, fontWeight: '900', color: '#171727'}}>caótico</Text>
+                    <Text style = {{fontSize: 24, fontWeight: '900', color: '#171727', fontFamily:'Bangers-Regular'}}>caótico{' '}</Text>
                 </View>
 
              </SafeAreaView>
+             </LinearGradient>
         
             
         
@@ -106,10 +114,8 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     loader : {
-        flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#fff"
        }
 
 
