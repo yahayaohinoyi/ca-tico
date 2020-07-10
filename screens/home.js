@@ -18,11 +18,15 @@ import CustomButton from '../components/button'
 import {useState, useEffect, useContext} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import LocalStorage from '../localStorage/localStorage'
+import {FireBaseContext} from '../store/getdata'
+var localName = new LocalStorage()
+
 
 
 const Home = (props) => {
     const [data, setData] = useState([])
     const [name, setName] = useState('')
+    const [dataContext, setDataContext] = useContext(FireBaseContext)
     useEffect(() => {
     //   const firebaseConfig = {
     //   apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
@@ -48,23 +52,50 @@ const Home = (props) => {
     // //   console.log(obj['userName'])
      
     //   })
-    let nameObj = new LocalStorage()
-    let myName = nameObj._retrieveData(uniqueId)
-    console.log(myName)
+    // let nameObj = new LocalStorage()
+    // let myName = nameObj._retrieveData('highScore')
+    // try{
+    //   console.log(myName) 
+    // }catch(err){
+    //   console.log(err)
+    // }
     // setName(myName)
-    }, [])
+
+    const getName = async id => {
+      try{
+        var myName = await localName._retrieveData('name')
+        // console.log(myName)
+        if(typeof(myName) === 'string'){
+          setName(myName)
+        }
+      }
+      catch(err){
+        
+      }
+
+    }
+    getName()
+    try{
+      setName(dataContext[uniqueId]['userName'])
+
+    }
+    catch(err){
+
+    }
+
+    }, [dataContext])
 
     return (
       <>
         <LinearGradient colors={['#5E6366', '#4E656E', '#49859A']} style = {{flex: 1}}>
           <SafeAreaView style = {{flex: 1}}>
             <View style = {{justifyContent: "flex-end", flexDirection: 'row', flex: 0.1, marginRight: 30, marginTop: 30}}>
-                <Text style = {styles.smallText}>
+                {/* <Text style = {styles.smallText}>
                     RANK: 
                 </Text>
                 <Text style = {styles.smallText}>
                     1
-                </Text>
+                </Text> */}
             </View>
             <View style = {{alignItems: 'center' , marginBottom: 100, flex: 0.3}}>
                 <View style = {{marginTop: 20, marginBottom: 2}}>

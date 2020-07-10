@@ -26,6 +26,8 @@ import GenerateRandom from '../Rules/fisherYates'
 import * as Animatable from 'react-native-animatable';
 import Instruction from './instruction';
 import LinearGradient from 'react-native-linear-gradient'
+import LocalStorage from '../localStorage/localStorage'
+
 
 const GameScreen = (props) => {
     var fisher = new GenerateRandom()
@@ -45,12 +47,34 @@ const GameScreen = (props) => {
 
     const [data, setData] = useState([])
     const [highScore, setHighScore] = useState(0)
-    const dataContext = useContext(FireBaseContext).data
+    const [dataContext, setDataContext] = useContext(FireBaseContext)
     const [failed, setFailed] = useState(false)
-
+    let localHighScore = new LocalStorage()
     useEffect(() => {
         // var myData = Object.values(dataContext)
         // setData(myData)
+        
+        const getData = async (id) => {
+            try{
+                var myLocalHighScore = await localHighScore._retrieveData('highScore')
+                var val = parseInt(myLocalHighScore)
+    
+                setHighScore(val)
+            }catch(err){
+                setHighScore(0)
+    
+            }
+
+        }
+        getData()
+        try{
+            setHighScore(dataContext[uniqueId]['highScore'])
+        }
+        catch{
+
+        }
+
+
     }, [])
 
     useEffect(() => {
@@ -208,25 +232,17 @@ const GameScreen = (props) => {
     const onFailRound = (aud) => {
         if(score > highScore){
             setHighScore(score)
-            const firebaseConfig = {
-                apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
-                authDomain: "caotico-b8650.firebaseapp.com",
-                databaseURL: "https://caotico-b8650.firebaseio.com",
-                projectId: "caotico-b8650",
-                storageBucket: "caotico-b8650.appspot.com",
-                messagingSenderId: "785688806738",
-                appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
-                measurementId: "G-3MTKKNNEWJ"
-            };
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }else{
-                firebase.app()
+            localHighScore._storeData('highScore', String(score))
+            let clonedObject = {}
+            Object.assign(clonedObject, dataContext)
+            clonedObject[uniqueId]['highScore'] = score
+            setDataContext(clonedObject)
+
+            try{
+                localHighScore._pushHighScoreToDataBase(score)
+            }catch(err){
+
             }
-            
-            firebase.database().ref(`users/${uniqueId}`).update({
-                highScore: score
-            })
             }
             setFailed(true)
             soundEffect(aud)

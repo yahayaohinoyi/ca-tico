@@ -13,9 +13,13 @@ import {
   import firebase from 'firebase'
 
 const FireBaseContext = React.createContext({})
+import LocalStorage from '../localStorage/localStorage'
+
+
 
 const Store = ({children}) => {
     const [data, setData] = useState([])
+    let localStorage = new LocalStorage()
         useEffect(() => {
                 const firebaseConfig = {
                     apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
@@ -38,10 +42,11 @@ const Store = ({children}) => {
             setData(out)
            
             })
+
       }, [])
     return (
         <>
-        <FireBaseContext.Provider value = {{data}}>
+        <FireBaseContext.Provider value = {[data, setData]}>
             {children}
         </FireBaseContext.Provider>
         </>

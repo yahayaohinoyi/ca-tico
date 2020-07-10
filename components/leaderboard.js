@@ -17,14 +17,15 @@ import { getUniqueId, getManufacturer } from 'react-native-device-info';
 let uniqueId = DeviceInfo.getUniqueId();
 import {FireBaseContext} from '../store/getdata'
 import LinearGradient from 'react-native-linear-gradient'
+import LocalStorage from '../localStorage/localStorage'
+
 
 
 const LeaderBoard = (props) => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
-    const dataContext = useContext(FireBaseContext).data
+    const dataContext = useContext(FireBaseContext)[0]
     // console.log(dataContext)
-
     useEffect(() => {
         var myData = Object.values(dataContext)
         setData(myData)

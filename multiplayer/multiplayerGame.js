@@ -70,7 +70,7 @@ const MultiplayerGameScreen = (props) => {
 
     const [data, setData] = useState([])
     const [highScore, setHighScore] = useState(0)
-    const dataContext = useContext(FireBaseContext).data
+    const dataContext = useContext(FireBaseContext)[0]
     const [failed, setFailed] = useState(false)
     const [multiplayerGameCounter, setMultiplayerGameCounter] = useState(0)
     const [myScore, setMyScore] = useState(0)
@@ -148,7 +148,7 @@ const MultiplayerGameScreen = (props) => {
         if(counter == arr.length - 1){
             if(stackObj.validate()){
                 if(stackObj.getArr().length === arr.length){
-                    whoToPlay()
+                    whoToPlay(1)
                     setScore(score + 1)
                     setCounter(0)
                     setMyScore(myScore + 1)                    
@@ -258,10 +258,10 @@ const MultiplayerGameScreen = (props) => {
 
         if(multiplayerGameCounter < 14 ){
             if(host && multiplayerGameCounter % 2 == 0 ){
-                whoToPlay() 
+                whoToPlay(0) 
             }
             else if(client && multiplayerGameCounter % 2 !== 0){
-                whoToPlay()
+                whoToPlay(0)
             }
             setScore(score + 1)
             setCounter(0)
@@ -362,7 +362,7 @@ const MultiplayerGameScreen = (props) => {
         setIsWating(true)
     }
 
-    const whoToPlay = () => {
+    const whoToPlay = (incremental) => {
         let new_instance = createNewRandomInstance().outArray
         let my_instruction = makeInstruction()
         var host_won = false
@@ -378,7 +378,7 @@ const MultiplayerGameScreen = (props) => {
                 instruction: my_instruction,
                 host_won,
                 isHost: host,
-                myScore: myScore + 1
+                myScore: myScore + incremental
             },
             channel: `${gameId}`
             });
@@ -415,7 +415,7 @@ const MultiplayerGameScreen = (props) => {
       <>
         <LinearGradient style = {{flex: 1}} colors={['#5E6366', '#4E656E', '#49859A']}>
 
-        {(myScore === 7 || opponentScore === 7) && <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        {(myScore === 7 || opponentScore === 7 || multiplayerGameCounter === 14) && <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
     <View style = {{marginBottom: 10}}>{(opponentScore > myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Lost! {' '}</Text>}
     {(opponentScore < myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Won!{' '}</Text>}
     {(opponentScore === myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>It's a Draw!{' '}</Text>}
@@ -431,14 +431,14 @@ const MultiplayerGameScreen = (props) => {
                     oddRowColor = '#51626A'
                     evenRowColor = '#4E656F'
                         /></View></SafeAreaView>}
-        {isPlaying && (myScore < 7 && opponentScore <7) && <SafeAreaView style = {{flex: 1}}>
+        {isPlaying && (myScore < 7 && opponentScore <7 && multiplayerGameCounter < 14) && <SafeAreaView style = {{flex: 1}}>
             <View style = {{flex: 0.3 ,backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
                 <View style = {{flex: 0.8, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                     <View>
-                        {<Text>ME</Text>}<ProgressBar color = '#49859A' progress={myScore/7} width={200} />
+                        {<Text>ME</Text>}<ProgressBar color = '#49859A' progress={myScore/7} width={300} />
                     </View>
                     <View style = {{paddingTop: 30}}>
-                        {<Text>OPPONENT</Text>}<ProgressBar color = '#49859A' progress={opponentScore/7} width={200} />
+                        {<Text>OPPONENT</Text>}<ProgressBar color = '#49859A' progress={opponentScore/7} width={300} />
                     </View>
 
                     {/* <Text>OPPONENT : {opponentScore}</Text>
