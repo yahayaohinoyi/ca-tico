@@ -15,23 +15,30 @@ class LocalStorage{
 
     }
 
-    _retrieveData = async (key) => {
+    _retrieveData = async (key, checker = '') => {
         try {
             const value = await AsyncStorage.getItem(key);
             if (value !== null) {
                 // Our data is fetched successfully
                 // console.log(value, 'from locals')
                 try{
-                    if(key === 'highScore'){
-                        this._pushHighScoreToDataBase(value)
+                    if(key == 'highScore'){
+                        if(value !== 0 && checker.length > 0 && typeof(checker) == 'string'){
+                            this._pushHighScoreToDataBase(value)
+                        }
                     }
-                    else if(key === 'userName'){
-                        this._pushNameToDataBase(value)
+                    else if(key == 'name'){
+                        if(value !== ''){
+                            this._pushNameToDataBase(value)
+                        }
                     }
                 }catch(err){
 
                 }
                 return value
+            }
+            else{
+                return null
             }
         } catch (error) {
             // Error retrieving data
@@ -99,12 +106,12 @@ class LocalStorage{
             }else{
                 firebase.app()
             }
-            firebase.database().ref('users').limitToFirst(20).on('value', (out)=>{           
+            var out = await firebase.database().ref('users').limitToFirst(20).on('value')          
             out = out.toJSON()
-            // console.log(out)
+            console.log(out)
             // this._storeData(out[uniqueId], out[uniqueId][`${item}`])
 
-            })
+         return out
     }
 
 

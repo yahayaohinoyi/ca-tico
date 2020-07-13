@@ -35,6 +35,8 @@ import LinearGradient from 'react-native-linear-gradient'
 // import * as Progress from 'react-native-progress';
 import ProgressBar from 'react-native-progress/Bar'
 import Leaderboard from 'react-native-leaderboard';
+import LocalStorage from '../localStorage/localStorage'
+var localDetails = new LocalStorage()
 
 
 
@@ -68,25 +70,46 @@ const MultiplayerGameScreen = (props) => {
     const [arr, setArr] = useState(fisher.outArray)
     const [resetTimer, setResetTimer] = useState(10)
 
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
     const [highScore, setHighScore] = useState(0)
     const dataContext = useContext(FireBaseContext)[0]
     const [failed, setFailed] = useState(false)
     const [multiplayerGameCounter, setMultiplayerGameCounter] = useState(0)
     const [myScore, setMyScore] = useState(0)
     const [opponentScore, setOpponentScore] = useState(0)
+    const [myName, setMyName] = useState('ME')
+    const [opponentName, setOpponentName] = useState('OPPONENT')
 
     const [toast, setToast] = useState(false)
+    
 
     useEffect(() => {
-        var myData = Object.values(dataContext)
-        setData(myData)
+    
+        const getName = async id => {
+            try{
+                var localName = await localDetails._retrieveData('name')
+                // console.log(myName)
+                if(typeof(localName) === 'string'){
+                setMyName(localName)
+                }
+            }
+            catch(err){
+                
+            }
+        }
+ 
+        getName()
+
+        // var myData = Object.values(dataContext)
+        // setData(myData)
+        // setMyName(dataContext[uniqueId]['userName'])
     }, [])
 
-    useEffect(() => {
-        setHighScore(dataContext[uniqueId]['highScore'])
-        // setInstruction(instruction)
-    }, [data, instruction])
+    useEffect(()=> {
+        configureNames()
+    }, [host, client])
+
+
 
     useEffect(() => {
         pubnub.subscribe({channels})
@@ -120,6 +143,7 @@ const MultiplayerGameScreen = (props) => {
 
                 }
 
+
             }
         })
     }, [pubnub, host, client])
@@ -132,6 +156,31 @@ const MultiplayerGameScreen = (props) => {
     for(let i = 0; i < arr.length; i ++){
         _map[arr[i].id] = i
     }
+
+    const configureNames = () => {
+        pubnub.subscribe({channels})
+        pubnub.addListener({
+            message: messageEvent => {
+                if(messageEvent.message.is_room_creator){
+                    if(host){
+                        setMyName(messageEvent.message.username)
+                    }
+                    else{
+                        setOpponentName(messageEvent.message.username)
+                    }
+                }
+                else if(messageEvent.message.not_room_creator){
+                    if(client){
+                        setMyName(messageEvent.message.username)
+                    }else if(host){
+                        setOpponentName(messageEvent.message.username)
+                    }
+                }
+            }
+        })
+    }
+
+
     const clickCard = id => {
         if(!arr[_map[id]].clicked){
             setCounter(counter + 1)
@@ -224,9 +273,7 @@ const MultiplayerGameScreen = (props) => {
         }
         }
 
-    const updateHighScore = () => {
-        return Math.max(score, highScore)
-    }
+
 
     const soundEffect = (filename) => {
         var Sound = require('react-native-sound');
@@ -288,7 +335,7 @@ const MultiplayerGameScreen = (props) => {
           pubnub.publish({
             message: {
               is_room_creator: true,
-            //   username: this.state.username
+              username: myName
             },
             channel: `${roomId}`
           });
@@ -331,6 +378,7 @@ const MultiplayerGameScreen = (props) => {
     }
 
     const joinRoom = (id) => {
+        try{
         setGameId(id)
         pubnub.hereNow({
             channels: [`${id}`]
@@ -347,7 +395,7 @@ const MultiplayerGameScreen = (props) => {
                     message: {
                       readyToPlay: true, // Game can now start
                       not_room_creator: true,
-                    //   username: this.state.username
+                      username: myName
                     },
                     channel: `${id}`
                   });
@@ -360,6 +408,9 @@ const MultiplayerGameScreen = (props) => {
         })
         setClient(true)
         setIsWating(true)
+        }catch(err){
+
+        }
     }
 
     const whoToPlay = (incremental) => {
@@ -421,8 +472,8 @@ const MultiplayerGameScreen = (props) => {
     {(opponentScore === myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>It's a Draw!{' '}</Text>}
             </View>
             <View style = {{width: 250}}><Leaderboard 
-                    data = {[{userName: 'Me', highScore: myScore},
-                    {userName: 'Opponent', highScore: opponentScore}]} 
+                    data = {[{userName: myName, highScore: myScore},
+                    {userName: opponentName, highScore: opponentScore}]} 
                     labelStyle = {{fontFamily:'Bangers-Regular'}}
                     // scoreStyle = {{fontFamily:'Bangers-Regular'}}
                     sortBy='highScore' 
@@ -435,10 +486,10 @@ const MultiplayerGameScreen = (props) => {
             <View style = {{flex: 0.3 ,backgroundColor: '#FFF', borderBottomLeftRadius: 200, borderBottomRightRadius: 200}}>
                 <View style = {{flex: 0.8, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                     <View>
-                        {<Text>ME</Text>}<ProgressBar color = '#49859A' progress={myScore/7} width={300} />
+                        {<Text style = {{fontFamily:'Bangers-Regular', fontSize: 20}}>{myName}</Text>}<ProgressBar color = '#49859A' progress={myScore/7} width={300} />
                     </View>
                     <View style = {{paddingTop: 30}}>
-                        {<Text>OPPONENT</Text>}<ProgressBar color = '#49859A' progress={opponentScore/7} width={300} />
+                        {<Text style = {{fontFamily:'Bangers-Regular', fontSize: 20}}>{opponentName}</Text>}<ProgressBar color = '#49859A' progress={opponentScore/7} width={300} />
                     </View>
 
                     {/* <Text>OPPONENT : {opponentScore}</Text>

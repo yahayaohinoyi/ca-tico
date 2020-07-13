@@ -28,62 +28,33 @@ const Home = (props) => {
     const [name, setName] = useState('')
     const [dataContext, setDataContext] = useContext(FireBaseContext)
     useEffect(() => {
-    //   const firebaseConfig = {
-    //   apiKey: "AIzaSyApb-7v_tDdCY3unQZgIIaFRizBPlLPwFU",
-    //   authDomain: "caotico-b8650.firebaseapp.com",
-    //   databaseURL: "https://caotico-b8650.firebaseio.com",
-    //   projectId: "caotico-b8650",
-    //   storageBucket: "caotico-b8650.appspot.com",
-    //   messagingSenderId: "785688806738",
-    //   appId: "1:785688806738:web:a322a8ce85ae3f9e49a68b",
-    //   measurementId: "G-3MTKKNNEWJ"
-    //   };
-    //   if (!firebase.apps.length) {
-    //   firebase.initializeApp(firebaseConfig);
-    //   }else{
-    //   firebase.app()
-    //   }
-    //   firebase.database().ref('users').limitToFirst(20).on('value', (out)=>{           
-    //   out = out.toJSON()
-    // //   console.log(out)
-    //   setData(out)
-    //   setName(out[uniqueId]['userName'])
-    // //   var obj = out[uniqueId]['userName']
-    // //   console.log(obj['userName'])
-     
-    //   })
-    // let nameObj = new LocalStorage()
-    // let myName = nameObj._retrieveData('highScore')
-    // try{
-    //   console.log(myName) 
-    // }catch(err){
-    //   console.log(err)
-    // }
-    // setName(myName)
-
+   
     const getName = async id => {
-      try{
-        var myName = await localName._retrieveData('name')
-        // console.log(myName)
-        if(typeof(myName) === 'string'){
-          setName(myName)
+        try{
+          var myName = await localName._retrieveData('name')
+          // console.log(myName)
+          if(typeof(myName) === 'string'){
+            setName(myName)
+          }
+          else{
+            setName(dataContext[uniqueId]['userName'])
+            await localName._storeData('name', dataContext[uniqueId]['userName'])
+          }
         }
+        catch(err){
+          
+        }
+
       }
-      catch(err){
+      getName()
+      try{
         
       }
+      catch(err){
 
-    }
-    getName()
-    try{
-      setName(dataContext[uniqueId]['userName'])
+      }
 
-    }
-    catch(err){
-
-    }
-
-    }, [dataContext])
+      }, [dataContext])
 
     return (
       <>

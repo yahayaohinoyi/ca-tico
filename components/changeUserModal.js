@@ -57,7 +57,9 @@ const LeaderBoardModal = () => {
 
 
       try{
-        localName._pushNameToDataBase(leaderboardName)
+        if(leaderboardName.length > 0){
+          localName._pushNameToDataBase(leaderboardName)
+        }
       }catch(err){
       }
     }

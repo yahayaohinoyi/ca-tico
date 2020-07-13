@@ -56,26 +56,32 @@ const GameScreen = (props) => {
         
         const getData = async (id) => {
             try{
-                var myLocalHighScore = await localHighScore._retrieveData('highScore')
-                var val = parseInt(myLocalHighScore)
+                // console.log(val, myLocalHighScore)
+                var myLocalHighName = await localHighScore._retrieveData('name')
+                if(typeof(myLocalHighName) == 'string' && myLocalHighName.length > 0){
+                    var myLocalHighScore = await localHighScore._retrieveData('highScore', 'morethanone')
+                }
+                else{
+                    var myLocalHighScore = await localHighScore._retrieveData('highScore')
+                }
+                if(typeof(myLocalHighScore) == 'number' || typeof(myLocalHighScore) == 'string'){
+                    var val = parseInt(myLocalHighScore)
+                    setHighScore(val)
+
+                }
+                else{
+                    setHighScore(dataContext[uniqueId]['highScore'])
+                    await localHighScore._storeData('highScore', dataContext[uniqueId]['highScore'])
+                }
     
-                setHighScore(val)
             }catch(err){
                 setHighScore(0)
-    
             }
 
         }
         getData()
-        try{
-            setHighScore(dataContext[uniqueId]['highScore'])
-        }
-        catch{
 
-        }
-
-
-    }, [])
+    }, [localHighScore])
 
     useEffect(() => {
         // setHighScore(dataContext[uniqueId]['highScore'])
@@ -204,7 +210,7 @@ const GameScreen = (props) => {
         }
         var whoosh = new Sound(dir, gameSound, (error) => {           
             if (error) {
-              console.log('failed to load the sound');
+            //   console.log('failed to load the sound');
               return;
             }
             // loaded successfully
@@ -216,9 +222,9 @@ const GameScreen = (props) => {
                 whoosh.play((success) => {
 
                     if (success) {
-                      console.log('successfully finished playing');
+                    //   console.log('successfully finished playing');
                     } else {
-                      console.log('playback failed due to audio decoding errors');
+                    //   console.log('playback failed due to audio decoding errors');
                     }
                   });
             }
@@ -232,16 +238,26 @@ const GameScreen = (props) => {
     const onFailRound = (aud) => {
         if(score > highScore){
             setHighScore(score)
-            localHighScore._storeData('highScore', String(score))
-            let clonedObject = {}
-            Object.assign(clonedObject, dataContext)
-            clonedObject[uniqueId]['highScore'] = score
-            setDataContext(clonedObject)
-
             try{
-                localHighScore._pushHighScoreToDataBase(score)
+                localHighScore._storeData('highScore', String(score))
+                let clonedObject = {}
+                Object.assign(clonedObject, dataContext)
+                clonedObject[uniqueId]['highScore'] = score
+                setDataContext(clonedObject)
             }catch(err){
 
+            }
+
+
+            try{
+                var nameCheck = localHighScore._retrieveData('name')
+                if(typeof(nameCheck) == 'string' && nameCheck.length > 0){
+                    console.log(nameCheck)
+
+                    localHighScore._pushHighScoreToDataBase(score)
+                }
+            }catch(err){
+                console.log('eror')
             }
             }
             setFailed(true)
