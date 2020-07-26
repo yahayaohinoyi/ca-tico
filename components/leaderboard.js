@@ -76,11 +76,7 @@ const LeaderBoard = (props) => {
                                 Change Username
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style = {styles.deleteStyle}>
-                            <Text style = {{color: '#fff'}}>
-                                Delete Account
-                            </Text>
-                        </TouchableOpacity>
+
                     </View>
                     <View style = {{flex: 0.8,justifyContent: 'center'}}> 
                         {renderActivityIndicator()}

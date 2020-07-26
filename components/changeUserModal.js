@@ -74,7 +74,7 @@ const LeaderBoardModal = () => {
         
       >
         <View style={styles.centeredView}>
-          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#5E6366', '#4E656E', '#49859A']} style={styles.modalView}>
+          <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['#304352', '#868D91', '#d7d2cc']} style={styles.modalView}>
             <Text style={styles.modalText}>Enter a Username</Text>
 
             <View style = {{alignItems: 'center', justifyContent:'center'}}>

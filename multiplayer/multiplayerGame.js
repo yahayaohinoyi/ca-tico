@@ -8,7 +8,8 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
-  Platform
+  Platform,
+  Image
 } from 'react-native';
 
 import firebase from 'firebase'
@@ -275,30 +276,43 @@ const MultiplayerGameScreen = (props) => {
 
 
 
-    const soundEffect = (filename) => {
-        var Sound = require('react-native-sound');
-        Sound.setCategory('Playback');
-        const dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
-        var whoosh = new Sound(dir, '', (error) => {
-            if (error) {
-              console.log('failed to load the sound');
-              return;
+        const soundEffect = (filename) => {
+            var Sound = require('react-native-sound');
+            Sound.setCategory('Playback');
+            var dir = ''
+            var gameSound = ''
+            if(Platform.OS === 'android'){
+                dir = filename
+                gameSound = Sound.MAIN_BUNDLE
             }
-            // loaded successfully
-            // console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-           
-            // Play the sound with an onEnd callback
-            whoosh.play((success) => {
-                setWoosh(whoosh)
-              if (success) {
-                // console.log('successfully finished playing');
-              } else {
-                // console.log('playback failed due to audio decoding errors');
-              }
-            });
-          });
-
-    }
+            else{
+                dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/sounds/" + filename
+            }
+            var whoosh = new Sound(dir, gameSound, (error) => {           
+                if (error) {
+                //   console.log('failed to load the sound');
+                  return;
+                }
+                // loaded successfully
+                // console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+               
+                // Play the sound with an onEnd callback
+                
+                else{
+                    whoosh.play((success) => {
+    
+                        if (success) {
+                        //   console.log('successfully finished playing');
+                        } else {
+                        //   console.log('playback failed due to audio decoding errors');
+                        }
+                      });
+                }
+                
+    
+              });
+              
+        }
 
 
     const onFailRound = (aud) => {
@@ -383,27 +397,33 @@ const MultiplayerGameScreen = (props) => {
         pubnub.hereNow({
             channels: [`${id}`]
         }, (status, response) => {
-            if(response.totalOccupancy < 1){
-                Alert.alert('Lobby is empty','Please create a room or wait for someone to create a room to join.');
-            }
-            else if(response.totalOccupancy < 3){
-                pubnub.subscribe({
-                  channels: [`${id}`],
-                  withPresence: true
-                });
-                pubnub.publish({
-                    message: {
-                      readyToPlay: true, // Game can now start
-                      not_room_creator: true,
-                      username: myName
-                    },
-                    channel: `${id}`
-                  });
-            
+            if(status.error){
+
             }
             else{
-                Alert.alert('Room full','Please enter another room name');
-              }
+                if(response.totalOccupancy < 1){
+                    Alert.alert('Lobby is empty','Please create a room or wait for someone to create a room to join.');
+                }
+                else if(response.totalOccupancy < 3){
+                    pubnub.subscribe({
+                      channels: [`${id}`],
+                      withPresence: true
+                    });
+                    pubnub.publish({
+                        message: {
+                          readyToPlay: true, // Game can now start
+                          not_room_creator: true,
+                          username: myName
+                        },
+                        channel: `${id}`
+                      });
+                
+                }
+                else{
+                    Alert.alert('Room full','Please enter another room name');
+                  }
+            }
+
           
         })
         setClient(true)
@@ -467,6 +487,7 @@ const MultiplayerGameScreen = (props) => {
         <LinearGradient style = {{flex: 1}} colors={['#5E6366', '#4E656E', '#49859A']}>
 
         {(myScore === 7 || opponentScore === 7 || multiplayerGameCounter === 14) && <SafeAreaView style = {{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+    
     <View style = {{marginBottom: 10}}>{(opponentScore > myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Lost! {' '}</Text>}
     {(opponentScore < myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>You Won!{' '}</Text>}
     {(opponentScore === myScore) && <Text style = {{fontFamily: 'Bangers-Regular', fontSize: 40}}>It's a Draw!{' '}</Text>}

@@ -28,7 +28,6 @@ import Instruction from './instruction';
 import LinearGradient from 'react-native-linear-gradient'
 import LocalStorage from '../localStorage/localStorage'
 
-
 const GameScreen = (props) => {
     var fisher = new GenerateRandom()
     var out = fisher.output(3)
@@ -56,7 +55,6 @@ const GameScreen = (props) => {
         
         const getData = async (id) => {
             try{
-                // console.log(val, myLocalHighScore)
                 var myLocalHighName = await localHighScore._retrieveData('name')
                 if(typeof(myLocalHighName) == 'string' && myLocalHighName.length > 0){
                     var myLocalHighScore = await localHighScore._retrieveData('highScore', 'morethanone')
@@ -118,7 +116,6 @@ const GameScreen = (props) => {
                     setStackObj(new Stack(my_instruction))
                     setResetTimer(10)
                     setId(Math.floor(Math.random() * (100000 - 0)) + 0)
-                    // console.log(id)
                     
                     soundEffect('test1.mp3')
                 }
@@ -206,7 +203,7 @@ const GameScreen = (props) => {
             gameSound = Sound.MAIN_BUNDLE
         }
         else{
-            dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/" + filename
+            dir = "/Users/mac/Documents/CODING-PROJECTS/REACT-NATIVE-PROJECTS/caotica/sounds/" + filename
         }
         var whoosh = new Sound(dir, gameSound, (error) => {           
             if (error) {
@@ -252,7 +249,6 @@ const GameScreen = (props) => {
             try{
                 var nameCheck = localHighScore._retrieveData('name')
                 if(typeof(nameCheck) == 'string' && nameCheck.length > 0){
-                    console.log(nameCheck)
 
                     localHighScore._pushHighScoreToDataBase(score)
                 }
