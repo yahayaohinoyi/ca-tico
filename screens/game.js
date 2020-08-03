@@ -7,7 +7,8 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native';
 
 import firebase from 'firebase'
@@ -29,6 +30,9 @@ import LinearGradient from 'react-native-linear-gradient'
 import LocalStorage from '../localStorage/localStorage'
 
 const GameScreen = (props) => {
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
+    console.log(windowHeight, windowWidth)
     var fisher = new GenerateRandom()
     var out = fisher.output(3)
     fisher.mapOut(out)
@@ -36,7 +40,6 @@ const GameScreen = (props) => {
     const [probVal, setProbVal] = useState(8)
     const [difficulty, setDifficulty] = useState(3)
     const [instruction, setInstruction] = useState('ASCEND')
-    // const [whoosh, setWoosh] = useState(whoosh)
     const [id, setId] = useState(Math.floor(Math.random() * (100000 - 0)) + 0)
     const [stackObj, setStackObj] = useState(new Stack('ASCEND'))
     const [score, setScore] = useState(0)
@@ -50,9 +53,7 @@ const GameScreen = (props) => {
     const [failed, setFailed] = useState(false)
     let localHighScore = new LocalStorage()
     useEffect(() => {
-        // var myData = Object.values(dataContext)
-        // setData(myData)
-        
+
         const getData = async (id) => {
             try{
                 var myLocalHighName = await localHighScore._retrieveData('name')
@@ -157,8 +158,8 @@ const GameScreen = (props) => {
     const handleCardStyle = (clicked) => {
         if (!clicked) {
             return {
-                height: 70,
-                width: 70,
+                height: 35*(windowHeight/windowWidth),
+                width: 35*(windowHeight/windowWidth),
                 borderRadius: 400,
                 backgroundColor: '#fff',
                 alignItems: 'center',
@@ -166,8 +167,8 @@ const GameScreen = (props) => {
             }
         }
         return {
-            height: 70,
-            width: 70,
+            height: 35*(windowHeight/windowWidth),
+            width: 35*(windowHeight/windowWidth),
             borderRadius: 400,
             backgroundColor: '#171727',
             alignItems: 'center',
@@ -253,7 +254,7 @@ const GameScreen = (props) => {
                     localHighScore._pushHighScoreToDataBase(score)
                 }
             }catch(err){
-                console.log('eror')
+                // console.log('eror')
             }
             }
             setFailed(true)

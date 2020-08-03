@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 
 import firebase from 'firebase'
@@ -48,6 +49,8 @@ import Timer from './timer'
 const channels = ['gameLobby'];
 
 const MultiplayerGameScreen = (props) => {
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
     var fisher = new GenerateRandom()
     var out = fisher.output(3)
     fisher.mapOut(out)
@@ -242,8 +245,8 @@ const MultiplayerGameScreen = (props) => {
     const handleCardStyle = (clicked) => {
         if (!clicked) {
             return {
-                height: 70,
-                width: 70,
+                height: 33.5*(windowHeight/windowWidth),
+                width: 33.5*(windowHeight/windowWidth),
                 borderRadius: 400,
                 backgroundColor: '#fff',
                 alignItems: 'center',
@@ -251,8 +254,8 @@ const MultiplayerGameScreen = (props) => {
             }
         }
         return {
-            height: 70,
-            width: 70,
+            height: 33.5*(windowHeight/windowWidth),
+            width: 33.5*(windowHeight/windowWidth),
             borderRadius: 400,
             backgroundColor: '#171727',
             alignItems: 'center',
@@ -397,10 +400,8 @@ const MultiplayerGameScreen = (props) => {
         pubnub.hereNow({
             channels: [`${id}`]
         }, (status, response) => {
-            if(status.error){
 
-            }
-            else{
+    
                 if(response.totalOccupancy < 1){
                     Alert.alert('Lobby is empty','Please create a room or wait for someone to create a room to join.');
                 }
@@ -422,7 +423,7 @@ const MultiplayerGameScreen = (props) => {
                 else{
                     Alert.alert('Room full','Please enter another room name');
                   }
-            }
+            
 
           
         })

@@ -18,16 +18,16 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		22CF79CC46AB4AB08CC65D82 /* NixieOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */; };
 		2302A7FFBA827B1D023FA202 /* libPods-caotica.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C75A7F9FBEF0B989684E5845 /* libPods-caotica.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* caoticaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* caoticaTests.m */; };
+		40BE87829B224FD1AAD0B697 /* Bangers-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */; };
 		6963EB0DF3087B64A64776B5 /* libPods-caotica-caoticaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E80DB9DF53AED278A23548E7 /* libPods-caotica-caoticaTests.a */; };
 		A8789E02E37DCCE4DF6A3AD3 /* libPods-caotica-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9918C2C742A2F54E17A797E /* libPods-caotica-tvOS.a */; };
 		ED5D4054534D91BAD99FDCE8 /* libPods-caotica-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64923D5E0F4C4F42646C0188 /* libPods-caotica-tvOSTests.a */; };
-		40BE87829B224FD1AAD0B697 /* Bangers-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */; };
-		22CF79CC46AB4AB08CC65D82 /* NixieOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,12 +66,14 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = caotica/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = caotica/main.m; sourceTree = "<group>"; };
 		1D96C3A9950C121257DC459B /* Pods-caotica-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-tvOS.release.xcconfig"; path = "Target Support Files/Pods-caotica-tvOS/Pods-caotica-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NixieOne-Regular.ttf"; path = "../assets/fonts/NixieOne-Regular.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* caotica-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "caotica-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* caotica-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "caotica-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3657238C563A8848AB298D49 /* Pods-caotica-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-caotica-tvOSTests/Pods-caotica-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		43A3ADDB5D87C46FDECB68F6 /* Pods-caotica-caoticaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-caoticaTests.release.xcconfig"; path = "Target Support Files/Pods-caotica-caoticaTests/Pods-caotica-caoticaTests.release.xcconfig"; sourceTree = "<group>"; };
 		64923D5E0F4C4F42646C0188 /* libPods-caotica-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-caotica-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77616D10A1FBB6D711CD2110 /* Pods-caotica.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica.debug.xcconfig"; path = "Target Support Files/Pods-caotica/Pods-caotica.debug.xcconfig"; sourceTree = "<group>"; };
+		BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Bangers-Regular.ttf"; path = "../assets/fonts/Bangers-Regular.ttf"; sourceTree = "<group>"; };
 		C75A7F9FBEF0B989684E5845 /* libPods-caotica.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-caotica.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B7076B7C146CBD2A9F533D /* Pods-caotica-caoticaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-caoticaTests.debug.xcconfig"; path = "Target Support Files/Pods-caotica-caoticaTests/Pods-caotica-caoticaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D93C5E29F4A9EC04F14CB992 /* Pods-caotica.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica.release.xcconfig"; path = "Target Support Files/Pods-caotica/Pods-caotica.release.xcconfig"; sourceTree = "<group>"; };
@@ -81,8 +83,6 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F9918C2C742A2F54E17A797E /* libPods-caotica-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-caotica-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF7719B18A3414AD0CD0DE65 /* Pods-caotica-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caotica-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-caotica-tvOSTests/Pods-caotica-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */ = {isa = PBXFileReference; name = "Bangers-Regular.ttf"; path = "../assets/fonts/Bangers-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */ = {isa = PBXFileReference; name = "NixieOne-Regular.ttf"; path = "../assets/fonts/NixieOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,14 +221,13 @@
 			sourceTree = "<group>";
 		};
 		EAE88060E30846E18C1C4E01 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				BC5AB45455DD44EAAE959B34 /* Bangers-Regular.ttf */,
 				20CF8444AC454C50A6BA4256 /* NixieOne-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -317,13 +316,14 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1150;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = ZUYH4W8RM6;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -624,6 +624,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4B7076B7C146CBD2A9F533D /* Pods-caotica-caoticaTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -647,6 +648,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 43A3ADDB5D87C46FDECB68F6 /* Pods-caotica-caoticaTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = caoticaTests/Info.plist;
@@ -670,6 +672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUYH4W8RM6;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -697,6 +700,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUYH4W8RM6;
 				INFOPLIST_FILE = caotica/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (

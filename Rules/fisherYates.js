@@ -31,8 +31,6 @@ export default class GenerateRandom {
                 }
             }
         }
-
-
     }
     output(breakPoint){
         let out = this.fisherShuffle(breakPoint)
